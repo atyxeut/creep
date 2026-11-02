@@ -1,0 +1,120 @@
+// SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+export module mtea.memory.allocator;
+
+import std;
+
+import mtea.meta;
+
+export namespace mtea {
+
+// represent std::allocator<T>
+struct std_allocator_tag {};
+
+// represent std::pmr::polymorphic_allocator<T>
+struct std_pmr_allocator_tag {};
+
+} // export namespace mtea
+
+namespace mtea {
+
+// allocator type order: dim_(n - 1), dim_(n - 2), ..., dim_0
+template <typename Allocator, typename T>
+struct eval_allocator_impl {
+  using type = Allocator;
+};
+
+template <typename T>
+struct eval_allocator_impl<std_allocator_tag, T> {
+  using type = std::allocator<T>;
+};
+
+template <typename T>
+struct eval_allocator_impl<std_pmr_allocator_tag, T> {
+  using type = std::pmr::polymorphic_allocator<T>;
+};
+
+} // namespace mtea
+
+export namespace mtea {
+
+template <typename T, typename Allocator>
+using eval_allocator = eval_allocator_impl<Allocator, T>;
+
+template <typename T, typename Allocator>
+using eval_allocator_t = eval_allocator<Allocator, T>::type;
+
+} // export namespace mtea
+
+namespace mtea {
+
+enum class uninitialized_construction_tag { move, copy };
+
+template <typename Allocator, typename InputIt, typename ForwardIt>
+concept uninitialized_construct_function_invocable =
+  std::same_as<typename std::allocator_traits<Allocator>::value_type, std::iter_value_t<ForwardIt>>
+  && std::constructible_from<typename std::allocator_traits<Allocator>::value_type, std::iter_reference_t<InputIt>>;
+
+template <uninitialized_construction_tag Tag, typename Allocator, typename InputIt, typename ForwardIt>
+constexpr auto uninitialized_construct_n(Allocator& alloc, InputIt first, std::size_t count, ForwardIt dest) {
+  if (count == 0) {
+    if constexpr (Tag == uninitialized_construction_tag::move)
+      return std::pair {first, dest};
+    else
+      return dest;
+  }
+
+  using allocator_traits = std::allocator_traits<Allocator>;
+  using value_type = allocator_traits::value_type;
+
+  if !consteval {
+    if constexpr (
+      std::same_as<Allocator, std::allocator<value_type>> && std::is_trivially_copyable_v<value_type> && std::contiguous_iterator<InputIt>
+      && std::contiguous_iterator<ForwardIt>
+    ) {
+      std::memcpy(std::to_address(dest), std::to_address(first), count * sizeof(value_type));
+      if constexpr (Tag == uninitialized_construction_tag::move)
+        return std::pair {first + static_cast<std::ptrdiff_t>(count), dest + static_cast<std::ptrdiff_t>(count)};
+      else
+        return dest + static_cast<std::ptrdiff_t>(count);
+    }
+  }
+
+  auto cur = dest;
+  try {
+    for (; count > 0; ++first, (void)++cur) {
+      --count;
+      if constexpr (Tag == uninitialized_construction_tag::move)
+        allocator_traits::construct(alloc, std::addressof(*cur), std::ranges::iter_move(first));
+      else
+        allocator_traits::construct(alloc, std::addressof(*cur), *first);
+    }
+  } catch (...) {
+    for (; dest != cur; ++dest)
+      allocator_traits::destroy(alloc, std::addressof(*dest));
+    throw;
+  }
+  if constexpr (Tag == uninitialized_construction_tag::move)
+    return std::pair {first, cur};
+  else
+    return cur;
+}
+
+} // namespace mtea
+
+export namespace mtea {
+
+template <typename Allocator, std::input_iterator InputIt, std::forward_iterator ForwardIt>
+  requires uninitialized_construct_function_invocable<Allocator, InputIt, ForwardIt>
+constexpr auto uninitialized_move_n(Allocator& alloc, InputIt first, std::size_t count, ForwardIt dest) {
+  return uninitialized_construct_n<uninitialized_construction_tag::move>(alloc, first, count, dest);
+}
+
+template <typename Allocator, std::input_iterator InputIt, std::forward_iterator ForwardIt>
+  requires uninitialized_construct_function_invocable<Allocator, InputIt, ForwardIt>
+constexpr auto uninitialized_copy_n(Allocator& alloc, InputIt first, std::size_t count, ForwardIt dest) {
+  return uninitialized_construct_n<uninitialized_construction_tag::copy>(alloc, first, count, dest);
+}
+
+} // export namespace mtea

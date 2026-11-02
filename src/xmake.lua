@@ -1,9 +1,9 @@
 -- SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-add_includedirs("fmia")
+add_includedirs("mtea")
 
-target("fmia")
+target("mtea")
   set_kind("object")
   add_files("**.cppm", { public = true })
   add_defines("NDEBUG")
@@ -12,7 +12,7 @@ target("fmia")
 target_end()
 
 if is_mode("debug") then
-  target("fmia.debug")
+  target("mtea.debug")
     set_kind("object")
     add_files("**.cppm", { public = true })
     set_optimize("none")

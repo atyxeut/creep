@@ -1,4 +1,4 @@
-# fmia: Fast Modern Implementations of Algorithms
+# mtea: Modern Templated Algorithms
 
 A high performance, pure-module C++ library.
 

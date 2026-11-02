@@ -1,0 +1,7 @@
+// SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+export module mtea.dp;
+
+export import mtea.dp.knapsack;
+export import mtea.dp.sequence;

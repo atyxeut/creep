@@ -7,8 +7,8 @@ add_cxxflags("-fcontract-evaluation-semantic=enforce")
 if is_mode("debug") then
   target("test")
     set_kind("object")
-    add_deps("fmia.debug");
-    add_files("fmia/**.cppm", { public = true })
+    add_deps("mtea.debug");
+    add_files("mtea/**.cppm", { public = true })
   target_end()
 
   target("test.tmp")

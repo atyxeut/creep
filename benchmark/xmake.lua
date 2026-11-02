@@ -8,8 +8,8 @@ add_cxxflags("-fcontract-evaluation-semantic=ignore")
 if is_mode("debug") then
   target("benchmark")
     set_kind("object")
-    add_deps("fmia");
-    add_files("fmia/**.cppm", { public = true })
+    add_deps("mtea");
+    add_files("mtea/**.cppm", { public = true })
   target_end()
 
   target("benchmark.hoare_quick_sort_variations")

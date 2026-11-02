@@ -1,0 +1,12 @@
+// SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+export module mtea.math.equation.linear_diophantine_equation;
+
+// information of equation a1x1 + a2x2 + a3x3 + ... + anxn = c
+
+export namespace mtea {
+
+class linear_diophantine_equation {};
+
+} // export namespace mtea
