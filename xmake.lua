@@ -1,7 +1,7 @@
 -- SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-set_xmakever("3.1.0")
+set_xmakever("3.1.2")
 set_project("modern-templated-algorithms")
 set_languages("cxx26")
 
