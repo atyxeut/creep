@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 # > fmt_cpp.py path
-#                       ↑ this is required
+#              ↑ this is required
 #   1. if path is a folder, recursively format every subpath in it
 #   2. if path is a .hpp/.cppm/.cpp/ file, format it using clang-format, styles are defined in .clang-format
 parser = argparse.ArgumentParser(add_help=False)
