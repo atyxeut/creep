@@ -33,6 +33,6 @@ elseif is_host("macosx") then
   end
 end
 
+includes("benchmark")
 includes("src")
 includes("test")
-includes("benchmark")

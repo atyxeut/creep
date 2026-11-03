@@ -3,17 +3,17 @@
 
 export module mtea;
 
-export import mtea.concurrency;
-export import mtea.data_structure;
-export import mtea.debug;
-export import mtea.dp;
-export import mtea.io;
-export import mtea.math;
-export import mtea.memory;
-export import mtea.meta;
-export import mtea.misc;
-export import mtea.random;
-export import mtea.simd;
-export import mtea.sort;
-export import mtea.system;
-export import mtea.util;
+export import :concurrency;
+export import :data_structure;
+export import :debug;
+export import :dp;
+export import :io;
+export import :math;
+export import :memory;
+export import :meta;
+export import :misc;
+export import :random;
+export import :simd;
+export import :sort;
+export import :system;
+export import :util;

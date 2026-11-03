@@ -1,21 +1,15 @@
 -- SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-add_includedirs("mtea")
+add_includedirs("../src")
 
-target("mtea")
-  set_kind("object")
-  add_files("**.cppm", { public = true })
-  add_defines("NDEBUG")
-  set_optimize("fastest")
-  add_cxxflags("-fcontract-evaluation-semantic=ignore")
-target_end()
-
-if is_mode("debug") then
-  target("mtea.debug")
-    set_kind("object")
+if is_mode("release") then
+  target("mtea")
+    set_kind("moduleonly")
     add_files("**.cppm", { public = true })
-    set_optimize("none")
-    add_cxxflags("-fcontract-evaluation-semantic=enforce")
+    remove_files("**.test.cppm", "**.benchmark.cppm")
+    add_defines("NDEBUG")
+    set_optimize("fastest")
+    add_cxxflags("-fcontract-evaluation-semantic=ignore")
   target_end()
 end

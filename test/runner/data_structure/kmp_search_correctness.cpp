@@ -1,8 +1,0 @@
-// SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
-// SPDX-License-Identifier: GPL-3.0-or-later
-
-import test.mtea.data_structure.string.kmp;
-
-int main() {
-  check_kmp_search();
-}
