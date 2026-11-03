@@ -10,7 +10,7 @@
 !ruff.toml
 !.clangd
 !.clang-format
-!fmt_cpp.py
+!format.py
 
 !xmake.lua
 !clean.py
