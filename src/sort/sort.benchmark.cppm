@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:sort.benchmark;
+export module creep:sort.benchmark;
 
 import :debug;
 import :io;
@@ -17,12 +17,12 @@ export {
 void compare_hoare_quick_sort_variations() {
   const auto comp = std::ranges::less {};
 
-  mtea::stopwatch timer;
+  creep::stopwatch timer;
 
-  auto int_arr_0 = mtea::random::rand_number_vector<int>(large_array_size);
+  auto int_arr_0 = creep::random::rand_number_vector<int>(large_array_size);
   auto int_arr_1 = int_arr_0;
-  auto string_arr_of_len_1000_0 = mtea::random::rand_vector<std::string>(small_array_size, [] {
-    return mtea::random::rand_positive_big_integer(1000);
+  auto string_arr_of_len_1000_0 = creep::random::rand_vector<std::string>(small_array_size, [] {
+    return creep::random::rand_positive_big_integer(1000);
   });
   auto string_arr_of_len_1000_1 = string_arr_of_len_1000_0;
 
@@ -33,19 +33,19 @@ void compare_hoare_quick_sort_variations() {
 
   const auto run = [&](std::size_t i) {
     timer.lap();
-    mtea::recursive_hoare_quick_sort(int_arr_0.begin(), int_arr_0.end(), comp);
+    creep::recursive_hoare_quick_sort(int_arr_0.begin(), int_arr_0.end(), comp);
     timer.lap();
-    mtea::recursive_hoare_quick_sort_less_comparison(int_arr_1.begin(), int_arr_1.end(), comp);
+    creep::recursive_hoare_quick_sort_less_comparison(int_arr_1.begin(), int_arr_1.end(), comp);
     timer.lap();
-    mtea::recursive_hoare_quick_sort(string_arr_of_len_1000_0.begin(), string_arr_of_len_1000_0.end(), comp);
+    creep::recursive_hoare_quick_sort(string_arr_of_len_1000_0.begin(), string_arr_of_len_1000_0.end(), comp);
     timer.lap();
-    mtea::recursive_hoare_quick_sort_less_comparison(string_arr_of_len_1000_1.begin(), string_arr_of_len_1000_1.end(), comp);
+    creep::recursive_hoare_quick_sort_less_comparison(string_arr_of_len_1000_1.begin(), string_arr_of_len_1000_1.end(), comp);
     timer.lap();
 
     for (auto j = 0uz; j < n[0]; ++j) {
       for (auto k = 0uz; k < n[1]; ++k) {
         std::print("{} version on {} {}: ", algorithm_type[k], test_type[i], data_type[j]);
-        timer.print_lap(timer.lap_count() - 4 + (j * n[1] + k + 1), mtea::iofmt::endl);
+        timer.print_lap(timer.lap_count() - 4 + (j * n[1] + k + 1), creep::iofmt::endl);
       }
     }
     std::println();

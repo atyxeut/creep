@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:math.algebra;
+export module creep:math.algebra;
 
 import :meta;
 import std;
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename T>
 inline constexpr bool enable_idempotent_operator = false;
@@ -15,9 +15,9 @@ template <typename T, typename Operator>
 concept idempotent_operator = std::regular_invocable<Operator, T, T> && std::convertible_to<std::invoke_result_t<Operator, T, T>, T>
                               && enable_idempotent_operator<std::remove_cvref_t<Operator>>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-export namespace mtea {
+export namespace creep {
 
 template <typename Operator>
 class idempotent_operator_wrapper final {
@@ -38,16 +38,16 @@ public:
 template <typename Operator>
 idempotent_operator_wrapper(Operator&& f) -> idempotent_operator_wrapper<std::remove_cvref_t<Operator>>;
 
-} // export namespace mtea
+} // export namespace creep
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename Operator>
 inline constexpr bool enable_idempotent_operator<idempotent_operator_wrapper<Operator>> = true;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-export namespace mtea {
+export namespace creep {
 
 enum class element_for_operator { add = 0, mul = 1 };
 
@@ -68,9 +68,9 @@ template <typename T, element_for_operator Operation>
     return elem == 1;
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename T>
 concept multipliable = requires(T a, T b) {
@@ -79,4 +79,4 @@ concept multipliable = requires(T a, T b) {
   { T(neutral_element_tag<element_for_operator::mul> {}) } -> std::same_as<T>;
 };
 
-} // export namespace mtea::meta
+} // export namespace creep::meta

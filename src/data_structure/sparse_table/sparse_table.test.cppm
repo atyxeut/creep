@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:data_structure.sparse_table.test;
+export module creep:data_structure.sparse_table.test;
 
 import :data_structure.sparse_table;
 import :math.algebra;
@@ -9,7 +9,7 @@ import :math.number.integer;
 import :random;
 import std;
 
-using namespace mtea;
+using namespace creep;
 
 constexpr usize element_count = 1e6;
 constexpr usize max_jump_count = ilog2(element_count);

@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import mtea;
+import creep;
 
 int main() {
   does_cstyle_string_literal_output_not_trigger_ambiguous_overloads();

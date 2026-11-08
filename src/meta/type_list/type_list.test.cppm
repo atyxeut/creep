@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:meta.type_list.test;
+export module creep:meta.type_list.test;
 
 import :meta.type_list;
 import std;
 
-using namespace mtea::meta;
+using namespace creep::meta;
 
 consteval void check_is_any_of() {
   static_assert(is_any_of_v<int> == false);

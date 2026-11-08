@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:io.buffered_io;
+export module creep:io.buffered_io;
 
 import :memory;
 import std;
 
-export namespace mtea {
+export namespace creep {
 
 template <std::size_t = 16 * 1024 * 1024, storage_location = storage_location::inplace>
 class buffered_reader;
@@ -28,4 +28,4 @@ class buffered_writer<BufferSize, storage_location::heap> {
   ~buffered_writer() { flush(); }
 };
 
-} // export namespace mtea
+} // export namespace creep

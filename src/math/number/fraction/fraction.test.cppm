@@ -1,4 +1,4 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:math.number.fraction.test;
+export module creep:math.number.fraction.test;

@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea;
+export module creep;
 
 export import :concurrency;
 export import :data_structure;
@@ -17,7 +17,3 @@ export import :simd;
 export import :sort;
 export import :system;
 export import :util;
-
-export import :data_structure.benchmark;
-export import :math.benchmark;
-export import :sort.benchmark;

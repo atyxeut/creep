@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:data_structure.graph;
+export module creep:data_structure.graph;
 
 export import :data_structure.graph.cactus_graph;
 export import :data_structure.graph.connectivity;

@@ -1,14 +1,14 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:data_structure.sparse_table;
+export module creep:data_structure.sparse_table;
 
 import :math.algebra;
 import :math.number.integer;
 import :memory;
 import std;
 
-export namespace mtea {
+export namespace creep {
 
 template <typename T, typename Merge, typename Buffer = relaxed_heap_buffer<T, std::size_t, std::allocator<T>>>
   requires std::regular_invocable<Merge, T, T>
@@ -96,4 +96,4 @@ sparse_table(R&&, F&&, const Allocator& = Allocator {}) -> sparse_table<
   std::ranges::range_value_t<R>, std::remove_reference_t<F>, relaxed_heap_buffer<std::ranges::range_value_t<R>, std::size_t, Allocator>
 >;
 
-} // export namespace mtea
+} // export namespace creep

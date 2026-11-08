@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:data_structure.string.trie;
+export module creep:data_structure.string.trie;
 
 import :memory;
 import :meta;
 import std;
 
-namespace mtea::detail {
+namespace creep::detail {
 
 template <typename Char, typename HashMap, exception_safety E>
 class trie_base {
@@ -237,9 +237,9 @@ struct trie_normal_hash_map {
   };
 };
 
-} // namespace mtea::detail
+} // namespace creep::detail
 
-export namespace mtea {
+export namespace creep {
 
 template <typename Char, std::size_t DistinctCharCount, std::regular_invocable<Char> Hash, exception_safety E = exception_safety::strong>
 using trie = detail::trie_base<Char, detail::trie_default_hash_map<Char, DistinctCharCount, Hash>, E>;
@@ -251,4 +251,4 @@ using upper_char_trie = trie<char, 26, decltype([](char ch) constexpr noexcept {
 template <typename Char, std::regular_invocable<Char> Hash, exception_safety E = exception_safety::strong>
 using hash_trie = detail::trie_base<Char, detail::trie_normal_hash_map<Char, Hash, std::unordered_map>, E>;
 
-} // namespace mtea
+} // namespace creep

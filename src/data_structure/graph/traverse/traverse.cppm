@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:data_structure.graph.traverse;
+export module creep:data_structure.graph.traverse;
 
 import :data_structure.graph.storage;
 import std;
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 // walk: a sequence of vertices and edges, must begin with a vertex and also end with a vertex
 // closed walk: a walk whose start is the same as the end
@@ -21,15 +21,15 @@ export namespace mtea::graph {
 enum class graph_trail_tag { none, circuit };
 enum class graph_path_tag { none, cycle };
 
-} // export namespace mtea::graph
+} // export namespace creep::graph
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 enum class toposort_error { has_cycle };
 
-} // export namespace mtea::graph
+} // export namespace creep::graph
 
-namespace mtea::graph {
+namespace creep::graph {
 
 enum class toposort_tag { none, lexicographical };
 
@@ -77,9 +77,9 @@ template <toposort_tag Order, typename Graph, typename Fn>
   return order_unique;
 }
 
-} // namespace mtea::graph
+} // namespace creep::graph
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 template <graph T, typename Fn>
 [[nodiscard]] constexpr auto toposort(const T& g, Fn&& fn) {
@@ -91,4 +91,4 @@ template <graph T, typename Fn>
   return toposort_impl<toposort_tag::lexicographical>(g, std::forward<Fn>(fn));
 }
 
-} // export namespace mtea::graph
+} // export namespace creep::graph

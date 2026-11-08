@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:debug.timer;
+export module creep:debug.timer;
 
 import :io;
 import std;
 
-export namespace mtea {
+export namespace creep {
 
 template <typename Rep, typename Period = std::milli, typename OtherRep, typename OtherPeriod>
 void print_duration_as(std::chrono::duration<OtherRep, OtherPeriod> duration, iofmt format = iofmt::none) {
@@ -129,4 +129,4 @@ public:
   void print_laps(iofmt format = iofmt::none) const { print_laps(1, lap_count(), format); }
 };
 
-} // export namespace mtea
+} // export namespace creep

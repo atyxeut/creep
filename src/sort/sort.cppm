@@ -1,19 +1,19 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:sort;
+export module creep:sort;
 
 import :random;
 import std;
 
-export namespace mtea {
+export namespace creep {
 
 template <typename Iter, typename Comparator, typename Projection = std::identity>
 concept comparison_sortable = std::sortable<Iter, Comparator, Projection>;
 
-} // export namespace mtea
+} // export namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 template <std::bidirectional_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
@@ -76,9 +76,9 @@ constexpr void bubble_sort(I first, I last, Comparator comp = std::ranges::less 
   }
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-namespace mtea {
+namespace creep {
 
 template <typename Iter, typename Comparator>
 constexpr void heap_sort_sift_down(std::iter_difference_t<Iter> size, std::iter_difference_t<Iter> cur, Iter first, Comparator comp) {
@@ -94,9 +94,9 @@ constexpr void heap_sort_sift_down(std::iter_difference_t<Iter> size, std::iter_
   }
 }
 
-} // namespace mtea
+} // namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 template <std::random_access_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
@@ -110,9 +110,9 @@ constexpr void heap_sort(I first, I last, Comparator comp = std::ranges::less {}
   }
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-namespace mtea {
+namespace creep {
 
 template <typename Iter, typename Comparator>
 constexpr Iter quick_sort_pivot_median_of_3(Iter first, Iter last, Comparator comp) pre(last - first > 2) {
@@ -215,9 +215,9 @@ constexpr void recursive_quick_sort_impl(Iter first, Iter last, Comparator comp)
   recursive_quick_sort_impl<PartitionPolicy>(mid[1], last, comp);
 }
 
-} // namespace mtea
+} // namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 template <std::random_access_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
@@ -249,9 +249,9 @@ constexpr void recursive_bentley_mcilroy_quick_sort(I first, I last, Comparator 
   recursive_quick_sort_impl<quick_sort_bentley_mcilroy_partition_tag>(first, last, comp);
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-namespace mtea {
+namespace creep {
 
 enum class merge_sort_merge_policy { normal, inplace };
 
@@ -284,9 +284,9 @@ constexpr void merge_sort_impl_recursive(I first, I last, Comparator comp) {
   //
 }
 
-} // namespace mtea
+} // namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 template <typename Iter, typename Comparator = std::ranges::less>
   requires comparison_sortable<Iter, Comparator>
@@ -300,4 +300,4 @@ constexpr void inplace_merge_sort(Iter first, Iter last, Comparator comp = std::
   merge_sort_impl_recursive<merge_sort_merge_policy::inplace>(first, last, comp);
 }
 
-} // export namespace mtea
+} // export namespace creep

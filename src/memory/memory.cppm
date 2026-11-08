@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:memory;
+export module creep:memory;
 
 import :math.number.integer;
 import std;
 
-export namespace mtea {
+export namespace creep {
 
 // use when there is a high probability that p, q are equal
 template <std::input_iterator I, std::strict_weak_order<std::iter_reference_t<I>, std::iter_reference_t<I>> Comparator = std::ranges::less>
@@ -16,9 +16,9 @@ template <std::input_iterator I, std::strict_weak_order<std::iter_reference_t<I>
   return comp(*p, *q);
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 // represent std::allocator<T>
 struct std_allocator_tag {};
@@ -26,9 +26,9 @@ struct std_allocator_tag {};
 // represent std::pmr::polymorphic_allocator<T>
 struct std_pmr_allocator_tag {};
 
-} // export namespace mtea
+} // export namespace creep
 
-namespace mtea {
+namespace creep {
 
 // allocator type order: dim_(n - 1), dim_(n - 2), ..., dim_0
 template <typename Allocator, typename T>
@@ -46,9 +46,9 @@ struct eval_allocator_impl<std_pmr_allocator_tag, T> {
   using type = std::pmr::polymorphic_allocator<T>;
 };
 
-} // namespace mtea
+} // namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 template <typename T, typename Allocator>
 using eval_allocator = eval_allocator_impl<Allocator, T>;
@@ -56,9 +56,9 @@ using eval_allocator = eval_allocator_impl<Allocator, T>;
 template <typename T, typename Allocator>
 using eval_allocator_t = eval_allocator<Allocator, T>::type;
 
-} // export namespace mtea
+} // export namespace creep
 
-namespace mtea {
+namespace creep {
 
 enum class uninitialized_construction_tag { move, copy };
 
@@ -112,9 +112,9 @@ constexpr auto uninitialized_construct_n(Allocator& alloc, InputIt first, std::s
     return cur;
 }
 
-} // namespace mtea
+} // namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 template <typename Allocator, std::input_iterator InputIt, std::forward_iterator ForwardIt>
   requires uninitialized_construct_function_invocable<Allocator, InputIt, ForwardIt>
@@ -128,16 +128,16 @@ constexpr auto uninitialized_copy_n(Allocator& alloc, InputIt first, std::size_t
   return uninitialized_construct_n<uninitialized_construction_tag::copy>(alloc, first, count, dest);
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 enum class storage_location { heap, inplace };
 enum class exception_safety { basic, strong };
 
-} // export namespace mtea
+} // export namespace creep
 
-namespace mtea {
+namespace creep {
 
 template <meta::size_integral T>
 constexpr T dynamic_storage_capacity = static_cast<T>(-1);
@@ -360,9 +360,9 @@ protected:
   }
 };
 
-} // namespace mtea
+} // namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 // contiguous heap memory whose size is determined at runtime
 template <typename T, meta::size_integral Size, typename Allocator>
@@ -378,4 +378,4 @@ using relaxed_fixed_heap_buffer = heap_buffer_base<T, std::size_t, Capacity, All
 template <typename T, std::size_t Capacity, typename Allocator>
 using fixed_heap_buffer = heap_buffer_base<T, std::size_t, Capacity, Allocator, exception_safety::strong>;
 
-} // export namespace mtea
+} // export namespace creep

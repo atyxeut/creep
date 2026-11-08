@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:data_structure.tuple.test;
+export module creep:data_structure.tuple.test;
 
 import :data_structure.tuple;
 import std;
 
-using namespace mtea;
+using namespace creep;
 
 export {
 

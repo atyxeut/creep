@@ -10,7 +10,7 @@ module;
 
 #include <macro/wconversion_flag.hpp>
 
-export module mtea:math.number.integer;
+export module creep:math.number.integer;
 
 import :data_structure.string.character;
 import :io.format_flag;
@@ -20,7 +20,7 @@ import std;
 
 // clang-format off
 
-export namespace mtea {
+export namespace creep {
 
 using i8  = std::int8_t;
 using u8  = std::uint8_t;
@@ -37,11 +37,11 @@ using idx64 = i64;
 using isize = std::ptrdiff_t;
 using usize = std::size_t;
 
-} // export namespace mtea
+} // export namespace creep
 
 // clang-format on
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename T>
 struct is_no_cv_boolean : std::bool_constant<std::same_as<T, bool>> {};
@@ -73,16 +73,16 @@ concept standard_size_integral = std::same_as<T, usize>;
 template <typename T>
 concept size_integral = standard_size_integral<T> || std::same_as<T, u32>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename T>
 concept state_integral = is_any_of_v<T, i32, u32, i64, u64>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea {
+namespace creep {
 
 // for 32-bit integers:
 //   00000000 ... 00000000
@@ -102,9 +102,9 @@ template <meta::state_integral T>
     return index < 64;
 }
 
-} // namespace mtea
+} // namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 template <meta::state_integral T>
 [[nodiscard]] constexpr bool is_bit_set(T state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
@@ -141,9 +141,9 @@ template <meta::state_integral T>
   return state ^ std::make_unsigned_t<T>(1) << index;
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-namespace mtea::integer {
+namespace creep::integer {
 
 #if defined(__SIZEOF_INT128__) || _MSC_VER >= 1934
 constexpr std::size_t min_precision_bits = 256;
@@ -151,10 +151,10 @@ constexpr std::size_t min_precision_bits = 256;
 constexpr std::size_t min_precision_bits = 128;
 #endif
 
-} // namespace mtea::integer
+} // namespace creep::integer
 
 // forward declarations
-export namespace mtea::integer {
+export namespace creep::integer {
 
 template <std::size_t Bits>
   requires (Bits >= min_precision_bits && std::has_single_bit(Bits))
@@ -164,12 +164,12 @@ template <std::size_t Bits>
   requires (Bits >= min_precision_bits && std::has_single_bit(Bits))
 class u;
 
-} // export namespace mtea::integer
+} // export namespace creep::integer
 
 // clang-format off
 
 #if defined(__SIZEOF_INT128__) || _MSC_VER >= 1934
-  export namespace mtea {
+  export namespace creep {
 
   #ifdef __SIZEOF_INT128__
     // https://gcc.gnu.org/onlinedocs/gcc/_005f_005fint128.html
@@ -180,9 +180,9 @@ class u;
     using u128 = std::_Unsigned128;
   #endif
 
-  } // export namespace mtea
+  } // export namespace creep
 
-  export namespace mtea::inline operator_overload::inline io_operator {
+  export namespace creep::inline operator_overload::inline io_operator {
 
   auto& operator >>(std::istream& istr, u128& n)
   {
@@ -238,19 +238,19 @@ class u;
     return ostr;
   }
 
-  } // export namespace mtea::inline operator_overload::inline io_operator
+  } // export namespace creep::inline operator_overload::inline io_operator
 #else
-  export namespace mtea {
+  export namespace creep {
 
-    using i128 = ::mtea::integer::i<128>;
-    using u128 = ::mtea::integer::u<128>;
+    using i128 = ::creep::integer::i<128>;
+    using u128 = ::creep::integer::u<128>;
 
-  } // export namespace mtea
+  } // export namespace creep
 #endif
 
 // clang-format on
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // whether std::integral<T> is true for T = i128/u128 depends on the compiler
 template <typename T>
@@ -312,9 +312,9 @@ concept nonbool_fixed_precision_integral = fixed_precision_integral<T> && !boole
 template <typename T>
 concept nothrow_integral = fixed_precision_integral<T>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <typename T, typename = std::remove_cv_t<T>>
 struct make_signed_selector : std::make_signed<T> {};
@@ -331,9 +331,9 @@ struct make_signed_selector<T, integer::i<Bits>> : claim_cv<T, integer::i<Bits>>
 template <typename T, usize Bits>
 struct make_signed_selector<T, integer::u<Bits>> : claim_cv<T, integer::i<Bits>> {};
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <fixed_precision_integral T>
 using make_signed = make_signed_selector<T>;
@@ -341,9 +341,9 @@ using make_signed = make_signed_selector<T>;
 template <fixed_precision_integral T>
 using make_signed_t = make_signed<T>::type;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <typename T, typename = std::remove_cv_t<T>>
 struct make_unsigned_selector : std::make_unsigned<T> {};
@@ -360,9 +360,9 @@ struct make_unsigned_selector<T, integer::i<Bits>> : claim_cv<T, integer::u<Bits
 template <typename T, usize Bits>
 struct make_unsigned_selector<T, integer::u<Bits>> : claim_cv<T, integer::u<Bits>> {};
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <fixed_precision_integral T>
 using make_unsigned = make_unsigned_selector<T>;
@@ -370,9 +370,9 @@ using make_unsigned = make_unsigned_selector<T>;
 template <fixed_precision_integral T>
 using make_unsigned_t = make_unsigned<T>::type;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-export namespace mtea {
+export namespace creep {
 
 // an extended version of std::abs
 // no compilation error: unsigned int _ = abs(1u);
@@ -429,9 +429,9 @@ template <std::unsigned_integral T, std::ranges::random_access_range R>
   return ans;
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // unsigned integers implicitly modulo 2^(Bits)
 template <typename T>
@@ -449,9 +449,9 @@ inline constexpr bool is_modular_integral_v = is_modular_integral<T>::value;
 template <typename T>
 concept modular_integral = is_modular_integral_v<T>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename>
 struct is_no_cv_arbitrary_precision_integral : std::false_type {};
@@ -477,9 +477,9 @@ concept integral = fixed_precision_integral<T> || arbitrary_precision_integral<T
 template <typename T>
 concept nonbool_integral = integral<T> && !boolean<T>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-export namespace mtea::big_integer::naive {
+export namespace creep::big_integer::naive {
 
 // basic utils for unsigned operands in radix 10^k
 
@@ -531,9 +531,9 @@ template <std::integral Limb>
   return 0;
 }
 
-} // export namespace mtea::big_integer::naive
+} // export namespace creep::big_integer::naive
 
-namespace mtea::big_integer::naive {
+namespace creep::big_integer::naive {
 
 enum class carry_policy { none, assume_unsigned };
 
@@ -552,9 +552,9 @@ constexpr Limb carry_impl(Range&& number) noexcept {
   return carry;
 }
 
-} // namespace mtea::big_integer::naive
+} // namespace creep::big_integer::naive
 
-export namespace mtea::big_integer::naive {
+export namespace creep::big_integer::naive {
 
 template <std::integral Limb, Limb Radix = 10, std::ranges::forward_range R>
 constexpr auto carry_unsigned(R&& number) noexcept {
@@ -644,7 +644,7 @@ struct floor_div_result {
   Remainder r;
 };
 
-MTEA_WCONVERSION_PUSH()
+CREEP_WCONVERSION_PUSH()
 
 // used when b is way smaller than a
 template <std::integral Limb>
@@ -693,7 +693,7 @@ template <std::integral Limb>
   return {std::move(q), std::move(r)};
 }
 
-MTEA_WCONVERSION_POP()
+CREEP_WCONVERSION_POP()
 
 template <std::integral Limb>
 struct div_result {
@@ -709,7 +709,7 @@ void print(const div_result<Limb>& result, iofmt format = iofmt::none) {
   print(std::views::reverse(result.q_frac), format);
 }
 
-MTEA_WCONVERSION_PUSH()
+CREEP_WCONVERSION_PUSH()
 
 // will calculate to precision + 1 decimal digits and round to the nearest
 template <std::integral Limb>
@@ -744,7 +744,7 @@ template <std::integral Limb>
   return {std::move(q_int), std::move(q_frac)};
 }
 
-MTEA_WCONVERSION_POP()
+CREEP_WCONVERSION_POP()
 
 template <std::integral Limb>
 [[nodiscard]] constexpr std::vector<Limb> pow(std::vector<Limb> a, int n) pre(n >= 0) {
@@ -763,7 +763,7 @@ template <std::integral Limb>
   return ans;
 }
 
-MTEA_WCONVERSION_PUSH()
+CREEP_WCONVERSION_PUSH()
 
 [[nodiscard]] constexpr std::vector<int> floor_root(const std::vector<int>& a, int n) pre(n > 0) {
   if (n == 1 || is_zero(a))
@@ -781,7 +781,7 @@ MTEA_WCONVERSION_PUSH()
   return l;
 }
 
-MTEA_WCONVERSION_POP()
+CREEP_WCONVERSION_POP()
 
 [[nodiscard]] constexpr auto floor_sqrt(const std::vector<int>& a) {
   return floor_root(a, 2);
@@ -791,9 +791,9 @@ MTEA_WCONVERSION_POP()
   return floor_root(a, 3);
 }
 
-} // export namespace mtea::big_integer::naive
+} // export namespace creep::big_integer::naive
 
-namespace mtea::big_integer {
+namespace creep::big_integer {
 
 [[nodiscard]] constexpr auto preprocess_input_string(std::string_view s) {
   if (s.empty() || (s.size() == 1) & !is_ascii_digit(s[0]))
@@ -835,9 +835,9 @@ void print_digit_limbs(std::ostream& ostr, std::span<const Limb> num) {
   ostr << std::setfill(' ');
 }
 
-} // namespace mtea::big_integer
+} // namespace creep::big_integer
 
-export namespace mtea::big_integer::naive {
+export namespace creep::big_integer::naive {
 
 class digit_storage {
 public:
@@ -876,11 +876,11 @@ public:
   }
 };
 
-} // export namespace mtea::big_integer::naive
+} // export namespace creep::big_integer::naive
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <>
 struct is_no_cv_arbitrary_precision_integral<big_integer::naive::digit_storage> : std::true_type {};
 
-} // export namespace mtea::meta
+} // export namespace creep::meta

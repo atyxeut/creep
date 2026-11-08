@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:data_structure.graph.eulerian_graph;
+export module creep:data_structure.graph.eulerian_graph;
 
 import :data_structure.graph.storage;
 import :data_structure.graph.traverse;
 import std;
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 // Eulerian trail: a trail that visits each edge exactly once
 // Eulerian circuit: a closed Eulerian trail
@@ -33,9 +33,9 @@ export namespace mtea::graph {
 
 enum class eulerian_graph_error { no_eulerian_trail, no_eulerian_circuit };
 
-} // export namespace mtea::graph
+} // export namespace creep::graph
 
-namespace mtea::graph {
+namespace creep::graph {
 
 template <direction GraphDirection, typename Graph, typename Vertex = Graph::vertex_type>
 [[nodiscard]] constexpr std::pair<Vertex, bool> get_eulerian_trail_start_vertex(const Graph& g) noexcept {
@@ -100,9 +100,9 @@ template <typename Graph, typename Vertex = Graph::vertex_type, typename Iterato
   return res;
 }
 
-} // namespace mtea::graph
+} // namespace creep::graph
 
-namespace mtea::graph {
+namespace creep::graph {
 
 // Hierholzer's algorithm
 // time complexity: O(V + E)
@@ -191,9 +191,9 @@ template <graph_trail_tag TrailTag, direction GraphDirection, typename Graph, ty
   return path;
 }
 
-} // namespace mtea::graph
+} // namespace creep::graph
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 // leave isolated vertices, the rest of the graph must be (strongly) connected, otherwise the following functions have undefined behavior
 
@@ -217,4 +217,4 @@ template <graph T>
   return get_an_eulerian_trail<graph_trail_tag::circuit, direction::directed>(g);
 }
 
-} // export namespace mtea::graph
+} // export namespace creep::graph

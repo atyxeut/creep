@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:util.test;
+export module creep:util.test;
 
 import :util;
 import std;
 
-using namespace mtea;
+using namespace creep;
 
 export {
 

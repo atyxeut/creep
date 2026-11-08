@@ -1,11 +1,11 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:data_structure.string.kmp;
+export module creep:data_structure.string.kmp;
 
 import std;
 
-export namespace mtea {
+export namespace creep {
 
 [[nodiscard]] constexpr std::vector<std::size_t> kmp_search_next_array(std::string_view pattern) noexcept {
   std::vector<std::size_t> res(pattern.size());
@@ -20,9 +20,9 @@ export namespace mtea {
   return res;
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-namespace mtea {
+namespace creep {
 
 enum class kmp_search_policy { first, all };
 
@@ -71,9 +71,9 @@ template <kmp_search_policy P, typename R>
     return res;
 }
 
-} // namespace mtea
+} // namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 template <std::ranges::random_access_range R>
 [[nodiscard]] constexpr auto kmp_search_first(std::string_view src, std::string_view pattern, R&& next) noexcept {
@@ -85,4 +85,4 @@ template <std::ranges::random_access_range R>
   return kmp_search_impl<kmp_search_policy::all>(src, pattern, std::forward<R>(next));
 }
 
-} // export namespace mtea
+} // export namespace creep

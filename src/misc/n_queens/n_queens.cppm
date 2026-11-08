@@ -1,11 +1,11 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:misc.n_queens;
+export module creep:misc.n_queens;
 
 import :math.number.integer;
 
-export namespace mtea {
+export namespace creep {
 
 u64 n_queens(u32 n) {
   if (n == 0)
@@ -31,4 +31,4 @@ u64 n_queens(u32 n) {
   return ans;
 }
 
-} // namespace mtea
+} // namespace creep

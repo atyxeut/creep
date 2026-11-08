@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:io.range_output.test;
+export module creep:io.range_output.test;
 
 import :data_structure.array;
 import :io.range_output;
 import std;
 
-using namespace mtea;
+using namespace creep;
 
 export {
 

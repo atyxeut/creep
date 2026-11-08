@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:math.counting;
+export module creep:math.counting;
 
 import :math.number.integer;
 import :meta;
 import std;
 
-namespace mtea {
+namespace creep {
 
 // count occurrences of digit x in all integers in [0, n]
 // time complexity: O(log n)
@@ -52,9 +52,9 @@ template <typename T>
   return ans;
 }
 
-} // namespace mtea
+} // namespace creep
 
-export namespace mtea {
+export namespace creep {
 
 template <meta::fixed_precision_integral T>
 [[nodiscard]] constexpr auto count_digit_occurrence(const T& l, const T& r, int x) pre(0 <= l && l <= r) pre(0 <= x && x <= 9) {
@@ -77,4 +77,4 @@ template <meta::fixed_precision_integral T>
   return ans;
 }
 
-} // export namespace mtea
+} // export namespace creep

@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:sort.test;
+export module creep:sort.test;
 
 import :random;
 import :sort;
@@ -12,7 +12,7 @@ using element_type = int;
 constexpr auto comp = std::ranges::less {};
 
 constexpr auto rand = [] {
-  return mtea::random::rand_number(std::numeric_limits<element_type>::min(), std::numeric_limits<element_type>::max());
+  return creep::random::rand_number(std::numeric_limits<element_type>::min(), std::numeric_limits<element_type>::max());
 };
 
 template <std::meta::info Sort>
@@ -26,7 +26,7 @@ void check(std::size_t array_size) {
   std::print("{}: ", std::meta::identifier_of(Sort));
 
   // unique data
-  auto data = mtea::random::rand_permutation<element_type>(array_size);
+  auto data = creep::random::rand_permutation<element_type>(array_size);
   check_impl(data);
   std::print("unique data OK | ");
 
@@ -51,44 +51,44 @@ constexpr std::size_t large_array_size = 1e5;
 export {
 
 void check_insertion_sort() {
-  check<^^mtea::insertion_sort>(small_array_size);
+  check<^^creep::insertion_sort>(small_array_size);
 }
 
 void check_binary_insertion_sort() {
-  check<^^mtea::binary_insertion_sort>(small_array_size);
+  check<^^creep::binary_insertion_sort>(small_array_size);
 }
 
 void check_selection_sort() {
-  check<^^mtea::selection_sort>(small_array_size);
+  check<^^creep::selection_sort>(small_array_size);
 }
 
 void check_bubble_sort() {
-  check<^^mtea::bubble_sort>(small_array_size);
+  check<^^creep::bubble_sort>(small_array_size);
 }
 
 void check_heap_sort() {
-  check<^^mtea::heap_sort>(large_array_size);
+  check<^^creep::heap_sort>(large_array_size);
 }
 
 void check_recursive_lomuto_quick_sort() {
   // bad performance on duplicate elements
-  check<^^mtea::recursive_lomuto_quick_sort>(small_array_size);
+  check<^^creep::recursive_lomuto_quick_sort>(small_array_size);
 }
 
 void check_recursive_dijkstra_quick_sort() {
-  check<^^mtea::recursive_dijkstra_quick_sort>(large_array_size);
+  check<^^creep::recursive_dijkstra_quick_sort>(large_array_size);
 }
 
 void check_recursive_hoare_quick_sort() {
-  check<^^mtea::recursive_hoare_quick_sort>(large_array_size);
+  check<^^creep::recursive_hoare_quick_sort>(large_array_size);
 }
 
 void check_recursive_hoare_quick_sort_less_comparison() {
-  check<^^mtea::recursive_hoare_quick_sort_less_comparison>(large_array_size);
+  check<^^creep::recursive_hoare_quick_sort_less_comparison>(large_array_size);
 }
 
 void check_merge_sort() {
-  check<^^mtea::merge_sort>(large_array_size);
+  check<^^creep::merge_sort>(large_array_size);
 }
 
 } // export

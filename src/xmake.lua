@@ -4,7 +4,7 @@
 add_includedirs("../src")
 
 if is_mode("release") then
-  target("mtea")
+  target("creep")
     set_kind("moduleonly")
     add_files("**.cppm", { public = true })
     remove_files("**.test.cppm", "**.benchmark.cppm")

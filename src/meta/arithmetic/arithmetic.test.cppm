@@ -1,15 +1,15 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:meta.arithmetic.test;
+export module creep:meta.arithmetic.test;
 
 import :math.number.floating_point;
 import :math.number.integer;
 import :meta.arithmetic;
 import std;
 
-using namespace mtea;
-using namespace mtea::meta;
+using namespace creep;
+using namespace creep::meta;
 
 consteval void check_make_higher_precision_for_integral() {
   static_assert(std::same_as<make_higher_precision_t<int>, i64> == true);

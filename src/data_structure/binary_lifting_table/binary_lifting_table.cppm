@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:data_structure.binary_lifting_table;
+export module creep:data_structure.binary_lifting_table;
 
 import :math.number.integer;
 import :memory;
 import std;
 
-export namespace mtea {
+export namespace creep {
 
 template <typename T, typename Merge, typename Project, typename I = std::size_t>
 struct binary_lifting_policy_base {
@@ -17,9 +17,9 @@ struct binary_lifting_policy_base {
   using index_type = I;
 };
 
-} // export namespace mtea
+} // export namespace creep
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename Policy>
 concept binary_lifting_policy = requires(typename Policy::value_type a, typename Policy::value_type b) {
@@ -34,9 +34,9 @@ concept binary_lifting_policy = requires(typename Policy::value_type a, typename
   { Policy::sentinel_index } -> std::same_as<typename Policy::index_type>;
 };
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-export namespace mtea {
+export namespace creep {
 
 template <typename T, meta::binary_lifting_policy Policy, typename Buffer = relaxed_heap_buffer<T, std::size_t, std::allocator<T>>>
   requires std::same_as<T, typename Policy::value_type>
@@ -126,4 +126,4 @@ binary_lifting_table(R&&, Policy&&, const Allocator& = Allocator {}) -> binary_l
   std::ranges::range_value_t<R>, std::remove_reference_t<Policy>, relaxed_heap_buffer<std::ranges::range_value_t<R>, std::size_t, Allocator>
 >;
 
-} // export namespace mtea
+} // export namespace creep

@@ -1,15 +1,15 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:data_structure.array.test;
+export module creep:data_structure.array.test;
 
 import :data_structure.array;
 import :memory;
 import std;
 
-using namespace mtea;
+using namespace creep;
 
-consteval void is_mtea_array_nested_std_array() {
+consteval void is_creep_array_nested_std_array() {
   using T1 = std::array<double, 10>;
   using T1_ = array<double, 10>;
   static_assert(std::same_as<T1, T1_>);
@@ -27,7 +27,7 @@ consteval void is_mtea_array_nested_std_array() {
   static_assert(std::same_as<T4, T4_>);
 }
 
-consteval void is_mtea_vector_nested_std_vector() {
+consteval void is_creep_vector_nested_std_vector() {
   using T1 = std::vector<double>;
   using T1_ = vector<double>;
   static_assert(std::same_as<T1, T1_>);
@@ -46,7 +46,7 @@ consteval void is_mtea_vector_nested_std_vector() {
   static_assert(std::same_as<T4, T4_>);
 }
 
-consteval void do_mtea_vector_allocators_default_to_std_allocator() {
+consteval void do_creep_vector_allocators_default_to_std_allocator() {
   using T1 = std::pmr::vector<double>;
   using T1_ = vector<double, 1, std::pmr::polymorphic_allocator<double>>;
   static_assert(std::same_as<T1, T1_>);

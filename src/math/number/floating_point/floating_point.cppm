@@ -1,20 +1,20 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:math.number.floating_point;
+export module creep:math.number.floating_point;
 
 import :math.number.integer;
 import std;
 
-export namespace mtea {
+export namespace creep {
 
 using f32 = float;       // precision: 6 to 9 decimal places
 using f64 = double;      // precision: 15 to 17 decimal places
 using f80 = long double; // precision: 18 to 20 decimal places (note that on MSVC long double is double)
 
-} // export namespace mtea
+} // export namespace creep
 
-namespace mtea::ieee754 {
+namespace creep::ieee754 {
 
 #ifdef __SIZEOF_FLOAT128__
 constexpr std::size_t min_precision_bits = 256;
@@ -22,10 +22,10 @@ constexpr std::size_t min_precision_bits = 256;
 constexpr std::size_t min_precision_bits = 128;
 #endif
 
-} // namespace mtea::ieee754
+} // namespace creep::ieee754
 
 // forward declarations
-export namespace mtea::ieee754 {
+export namespace creep::ieee754 {
 
 // IEEE 754 binary floating-point
 template <std::size_t Bits>
@@ -37,25 +37,25 @@ template <std::size_t Bits>
   requires (Bits >= 32 && std::has_single_bit(Bits))
 class d;
 
-} // export namespace mtea::ieee754
+} // export namespace creep::ieee754
 
 // clang-format off
 
-export namespace mtea {
+export namespace creep {
 
 // f128 precision: 33 to 35 decimal places
 #ifdef __SIZEOF_FLOAT128__
   // https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html
   __extension__ using f128 = __float128;
 #else
-  using f128 = ::mtea::ieee754::f<128>;
+  using f128 = ::creep::ieee754::f<128>;
 #endif
 
-} // export namespace mtea
+} // export namespace creep
 
 // clang-format on
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename>
 struct is_no_cv_custom_ieee754_binary_floating_point : std::false_type {};
@@ -100,9 +100,9 @@ concept ieee754_floating_point = ieee754_binary_floating_point<T> || ieee754_dec
 template <typename T>
 concept nothrow_floating_point = ieee754_floating_point<T>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename>
 struct is_no_cv_arbitrary_precision_floating_point : std::false_type {};
@@ -122,4 +122,4 @@ concept arbitrary_precision_floating_point = is_arbitrary_precision_floating_poi
 template <typename T>
 concept floating_point = ieee754_floating_point<T> || arbitrary_precision_floating_point<T>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta

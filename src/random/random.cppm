@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:random;
+export module creep:random;
 
 import :data_structure.graph;
 import :data_structure.string;
 import std;
 
-export namespace mtea::random {
+export namespace creep::random {
 
 inline const auto time_seed = std::chrono::steady_clock::now().time_since_epoch().count();
 inline std::random_device seed_generator;
@@ -31,9 +31,9 @@ template <typename T, typename Engine = std::mt19937>
   return uniform_distribution(l, r)(engine);
 }
 
-} // export namespace mtea::random
+} // export namespace creep::random
 
-namespace mtea::random {
+namespace creep::random {
 
 template <bool AllowNegative>
 [[nodiscard]] std::string rand_big_integer_impl(std::size_t length) {
@@ -54,9 +54,9 @@ template <bool AllowNegative>
   return data;
 }
 
-} // namespace mtea::random
+} // namespace creep::random
 
-export namespace mtea::random {
+export namespace creep::random {
 
 [[nodiscard]] auto rand_big_integer(std::size_t length) {
   return rand_big_integer_impl<true>(length);
@@ -144,4 +144,4 @@ template <typename T>
 //   return data;
 // }
 
-} // export namespace mtea::random
+} // export namespace creep::random

@@ -1,11 +1,11 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:meta.cvref;
+export module creep:meta.cvref;
 
 import std;
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename T>
 struct has_cv : std::bool_constant<std::is_const_v<T> || std::is_volatile_v<T>> {};
@@ -19,9 +19,9 @@ struct is_cv : std::bool_constant<std::is_const_v<T> && std::is_volatile_v<T>> {
 template <typename T>
 inline constexpr bool is_cv_v = is_cv<T>::value;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <typename From, typename To, bool = std::is_const_v<From>, bool = std::is_volatile_v<From>>
 struct claim_cv_selector;
@@ -44,9 +44,9 @@ struct claim_cv_selector<From, To, false, false> {
   using type = To;
 };
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // extract the cv-qualifiers of From and apply them to To
 template <typename From, typename To>
@@ -55,4 +55,4 @@ using claim_cv = claim_cv_selector<From, To>;
 template <typename From, typename To>
 using claim_cv_t = claim_cv<From, To>::type;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta

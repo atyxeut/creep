@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:math.sequence;
+export module creep:math.sequence;
 
 import :meta;
 import std;
 
-export namespace mtea {
+export namespace creep {
 
 // the behavior is undefined if the given prime list is not valid
 template <std::integral Result, std::integral T, std::ranges::random_access_range R>
@@ -42,4 +42,4 @@ template <std::integral Result, std::integral T, std::ranges::random_access_rang
   return ans;
 }
 
-} // export namespace mtea
+} // export namespace creep

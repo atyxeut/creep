@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:data_structure.graph.storage.test;
+export module creep:data_structure.graph.storage.test;
 
 import :data_structure.graph.storage;
 import std;
 
-using namespace mtea;
+using namespace creep;
 
 consteval void check_edge_class_aggregate_initialization() {
   using T0 = graph::undirected_edge<std::size_t, std::size_t, std::size_t, int>;

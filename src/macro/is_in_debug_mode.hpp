@@ -6,9 +6,9 @@
 // clang-format off
 
 #ifdef NDEBUG
-  #define MTEA_IS_IN_DEBUG_MODE 0
+  #define CREEP_IS_IN_DEBUG_MODE 0
 #else
-  #define MTEA_IS_IN_DEBUG_MODE 1
+  #define CREEP_IS_IN_DEBUG_MODE 1
 #endif
 
 // clang-format on

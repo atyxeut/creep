@@ -5,14 +5,14 @@ module;
 
 #include <climits>
 
-export module mtea:meta.arithmetic;
+export module creep:meta.arithmetic;
 
 import :math.number.floating_point;
 import :math.number.integer;
 import :meta.cvref;
 import std;
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename T>
 concept fixed_precision_arithmetic = fixed_precision_integral<T> || ieee754_floating_point<T>;
@@ -26,9 +26,9 @@ concept arithmetic = integral<T> || floating_point<T>;
 template <typename T>
 concept nothrow_arithmetic = nothrow_integral<T> || nothrow_floating_point<T>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename T>
 constexpr usize precision_bits_v = sizeof(T) * CHAR_BIT;
@@ -91,9 +91,9 @@ concept precision_gt = compare_precision_v<T, U> > 0;
 template <typename T, typename U>
 concept precision_gteq = compare_precision_v<T, U> >= 0;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <typename, usize>
 struct make_higher_precision_selector_for_standard_integral_impl;
@@ -179,9 +179,9 @@ struct make_higher_precision_selector<T>
 template <floating_point T>
 struct make_higher_precision_selector<T> : make_higher_precision_selector_for_floating_point<T> {};
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // for a fixed-precision integer type: obtain i/u32 if its precision is smaller than 32 bits, otherwise obtain a fixed-precision integer
 // type that has double precision
@@ -196,4 +196,4 @@ using make_higher_precision = make_higher_precision_selector<T>;
 template <typename T>
 using make_higher_precision_t = make_higher_precision<T>::type;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta

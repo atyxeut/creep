@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:meta.type_list;
+export module creep:meta.type_list;
 
 import :meta.integer_sequence;
 import :meta.not_same;
 import std;
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename T, typename... Us>
 struct is_any_of : std::disjunction<is_any_of<T, Us>...> {};
@@ -36,9 +36,9 @@ struct all_the_same<T, U> : std::bool_constant<std::same_as<T, U>> {};
 template <typename... Ts>
 inline constexpr bool all_the_same_v = all_the_same<Ts...>::value;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <typename...>
 struct type_list {};
@@ -203,16 +203,16 @@ using last = nth<T, length_v<T> - 1>;
 template <nonempty_list_of_types T>
 using last_t = last<T>::type;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <std::size_t I, typename T>
 indexed_type<I, T> indexed_type_lookup_helper(indexed_type<I, T>);
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // name after Haskell Data.List lookup
 // get the corresponding indexed type of a indexed_type_list with a given index
@@ -279,9 +279,9 @@ struct snoc_if : std::conditional<B, snoc_t<AnyTypeList, T>, AnyTypeList> {};
 template <typename AnyTypeList, typename T, bool B>
 using snoc_if_t = snoc_if<AnyTypeList, T, B>::type;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <typename, typename>
 struct replicate_impl;
@@ -291,9 +291,9 @@ struct replicate_impl<T, std::index_sequence<Is...>> {
   using type = type_list<std::enable_if_t<(Is >= 0), T>...>;
 };
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // name after Haskell Data.List replicate
 // get a type list that contains N identical types
@@ -355,9 +355,9 @@ using invoke_t = invoke<WrappedTemplate, Args...>::type;
 template <typename WrappedTemplate, typename... Args>
 constexpr auto invoke_v = invoke<WrappedTemplate, Args...>::value;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <template <typename...> typename, typename>
 struct is_predicate_tester;
@@ -375,9 +375,9 @@ struct is_predicate_impl;
 template <template <typename...> typename Fn, std::size_t... Is>
 struct is_predicate_impl<Fn, std::index_sequence<Is...>> : std::disjunction<is_predicate_tester<Fn, replicate_t<void, Is + 1>>...> {};
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <template <typename...> typename Fn, std::size_t ArityLimit = 5>
   requires (ArityLimit > 0)
@@ -392,9 +392,9 @@ concept predicate = is_predicate_v<Fn>;
 template <typename Fn>
 concept wrapped_predicate = wrapped_template<Fn> && predicate<Fn::template type>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <typename... AnyTypeLists>
 struct concat_impl {
@@ -467,9 +467,9 @@ struct concat_get_result_helper<Result, true> {
 template <typename Result>
 struct concat_get_result_helper<Result, true> {};
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // name after Haskell Data.List concat
 // get the concatenation of several type lists
@@ -576,9 +576,9 @@ using drop_end = take<T, length_v<T> - N>;
 template <list_of_types T, std::size_t N>
 using drop_end_t = drop_end<T, N>::type;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <typename, template <typename> typename, typename = empty_type_list>
 struct take_while_impl;
@@ -604,9 +604,9 @@ struct take_while_impl<type_list<T, Ts...>, Fn, type_list<Taken...>>
       std::type_identity<type_list<Taken...>>
     > {};
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // name after Haskell Data.List takeWhile
 // get the longest prefix type list whose types all satisfy a given predicate
@@ -629,9 +629,9 @@ template <list_of_types T, template <typename> typename Fn>
   requires predicate<Fn>
 using take_while_end_t = take_while_end<T, Fn>::type;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <typename, template <typename> typename>
 struct drop_while_impl;
@@ -656,9 +656,9 @@ struct drop_while_impl<type_list<T, Ts...>, Fn>
       Fn<T>::value, drop_while_impl_lazy_evaluation_helper<type_list<T, Ts...>, Fn>, std::type_identity<type_list<T, Ts...>>
     > {};
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // name after Haskell Data.List dropWhile
 // get a type list with a longest prefix type list removed, whose types all satisfy a given predicate
@@ -793,4 +793,4 @@ using has_none = std::negation<has_any<T, U>>;
 template <list_of_types T, typename U>
 inline constexpr bool has_none_v = has_none<T, U>::value;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta

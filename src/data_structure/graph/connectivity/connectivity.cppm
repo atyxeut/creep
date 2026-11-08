@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:data_structure.graph.connectivity;
+export module creep:data_structure.graph.connectivity;
 
 import :data_structure.graph.storage;
 import std;
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 template <graph T, typename V = T::vertex_type>
 [[nodiscard]] constexpr std::vector<V> get_scc_tarjan_recursive(const T& g) {
@@ -48,4 +48,4 @@ template <graph T, typename V = T::vertex_type>
   return scc_id;
 }
 
-} // export namespace mtea::graph
+} // export namespace creep::graph

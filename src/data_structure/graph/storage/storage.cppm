@@ -1,18 +1,18 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:data_structure.graph.storage;
+export module creep:data_structure.graph.storage;
 
 import :meta;
 import std;
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 enum class direction { undirected, directed, mixed };
 
-} // export namespace mtea::graph
+} // export namespace creep::graph
 
-namespace mtea::graph {
+namespace creep::graph {
 
 template <direction Direction, typename Order, typename Weight>
 struct common_trait_base {
@@ -37,9 +37,9 @@ struct graph_trait_base : common_trait_base<Direction, Order, Weight> {
   using size_difference_type = std::make_signed_t<size_type>;
 };
 
-} // namespace mtea::graph
+} // namespace creep::graph
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 template <typename>
 struct edge_traits {};
@@ -80,9 +80,9 @@ using graph_size_difference_t = graph_traits<std::remove_cvref_t<T>>::size_diffe
 template <typename T>
 using graph_weight_t = graph_traits<std::remove_cvref_t<T>>::weight_type;
 
-} // export namespace mtea::graph
+} // export namespace creep::graph
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 template <typename T>
 concept graph = requires(std::remove_cvref_t<T> g) {
@@ -116,9 +116,9 @@ concept unweighted_graph = graph<T> && !graph_traits<std::remove_cvref_t<T>>::is
 template <typename T>
 concept weighted_graph = graph<T> && graph_traits<std::remove_cvref_t<T>>::is_weighted();
 
-} // export namespace mtea::graph
+} // export namespace creep::graph
 
-namespace mtea::graph {
+namespace creep::graph {
 
 template <typename>
 struct edge_id;
@@ -165,9 +165,9 @@ template <direction Direction, typename Id, typename SourceOrder, std::unsigned_
              && (std::is_void_v<Weight> || meta::arithmetic<Weight>)
 class edge_base : public edge_id<Id>, public edge_source<SourceOrder>, public edge_destination<Order>, public edge_weight<Weight> {};
 
-}; // namespace mtea::graph
+}; // namespace creep::graph
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 template <direction Direction, typename Id, typename SourceOrder, typename Order, typename Weight>
 struct edge_traits<edge_base<Direction, Id, SourceOrder, Order, Weight>> : edge_trait_base<Direction, Id, Order, Weight> {};
@@ -178,9 +178,9 @@ using undirected_edge = edge_base<direction::undirected, Id, SourceOrder, Order,
 template <typename Id = void, typename SourceOrder = std::size_t, typename Order = std::size_t, typename Weight = void>
 using directed_edge = edge_base<direction::directed, Id, SourceOrder, Order, Weight>;
 
-} // export namespace mtea::graph
+} // export namespace creep::graph
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 template <typename Edge, typename Size = std::conditional_t<std::is_void_v<edge_id_t<Edge>>, edge_order_t<Edge>, edge_id_t<Edge>>>
   requires ((std::is_void_v<edge_id_t<Edge>> && meta::precision_gteq<Size, edge_order_t<Edge>>) || std::same_as<edge_id_t<Edge>, Size>)
@@ -209,4 +209,4 @@ public:
   template <typename... Args> constexpr void add_edge(Args&&... args) { edges_.emplace_back(std::forward<Args>(args)...); }
 };
 
-} // export namespace mtea::graph
+} // export namespace creep::graph

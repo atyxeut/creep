@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:io.range_output;
+export module creep:io.range_output;
 
 import :data_structure.tuple;
 import std;
 
-namespace mtea::meta::cpp17 {
+namespace creep::meta::cpp17 {
 
 // must be put here, otherwise the range print functions cannot print ranges that contains std::pair or std::tuple
 
@@ -16,9 +16,9 @@ struct is_std_ostream_interactable_impl : std::false_type {};
 template <typename T>
 struct is_std_ostream_interactable_impl<T, std::void_t<decltype(std::declval<std::ostream&>() << std::declval<T>())>> : std::true_type {};
 
-} // namespace mtea::meta::cpp17
+} // namespace creep::meta::cpp17
 
-export namespace mtea::meta::cpp17 {
+export namespace creep::meta::cpp17 {
 
 // check if T has an overload of operator << of std::ostream&
 // to make is_std_ostream_interactable<...>::value evaluate to true, the candidate overload must be already defined above it
@@ -28,9 +28,9 @@ using is_std_ostream_interactable = is_std_ostream_interactable_impl<T>;
 template <typename T>
 inline constexpr bool is_std_ostream_interactable_v = is_std_ostream_interactable<T>::value;
 
-} // export namespace mtea::meta::cpp17
+} // export namespace creep::meta::cpp17
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // not usable: infinitely recursive constraint (llvm 22)
 // however its fine for gcc and msvc
@@ -40,9 +40,9 @@ export namespace mtea::meta {
 template <typename T>
 concept printable = cpp17::is_std_ostream_interactable_v<T> || requires(std::ostream& os, T t) { print(os, t); };
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-export namespace mtea {
+export namespace creep {
 
 // for a range whose elements can be printed by std::ostream by default
 // e.g. std::vector<int>, std::vector<std::string>
@@ -89,14 +89,14 @@ void print(std::ostream& ostr, const T& arr, Delim&& delim = std::string(1, ' ')
     ostr << '\n';
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-export namespace mtea::inline operator_overload::inline io_operator {
+export namespace creep::inline operator_overload::inline io_operator {
 
 // avoid ambiguous overloads when Range is std::string&, int[2][3], ...
-template <std::ranges::input_range R, typename = std::enable_if_t<!::mtea::meta::cpp17::is_std_ostream_interactable_v<R>>>
+template <std::ranges::input_range R, typename = std::enable_if_t<!::creep::meta::cpp17::is_std_ostream_interactable_v<R>>>
 auto& operator <<(std::ostream& ostr, R&& range) {
-  ::mtea::print(ostr, std::forward<R>(range));
+  ::creep::print(ostr, std::forward<R>(range));
   return ostr;
 }
 
@@ -105,8 +105,8 @@ auto& operator <<(std::ostream& ostr, R&& range) {
 template <typename T, std::size_t N>
   requires (!std::same_as<std::remove_cv_t<T>, char>)
 auto& operator <<(std::ostream& ostr, const T (&arr)[N]) {
-  ::mtea::print(ostr, arr);
+  ::creep::print(ostr, arr);
   return ostr;
 }
 
-} // export namespace mtea::inline operator_overload::inline io_operator
+} // export namespace creep::inline operator_overload::inline io_operator

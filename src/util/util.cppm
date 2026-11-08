@@ -1,11 +1,11 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:util;
+export module creep:util;
 
 import std;
 
-export namespace mtea {
+export namespace creep {
 
 template <typename T, typename U, std::regular_invocable<T&, U&&> Comparator>
   requires std::same_as<std::remove_cvref_t<T>, std::remove_cvref_t<U>>
@@ -70,4 +70,4 @@ template <std::ranges::input_range Range>
   return rank;
 }
 
-} // export namespace mtea
+} // export namespace creep

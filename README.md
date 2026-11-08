@@ -1,4 +1,4 @@
-# mtea: Modern Templated Algorithms
+# creep: The slow-growing substrate that makes what's on it run faster.
 
 A high performance, pure-module C++ library.
 

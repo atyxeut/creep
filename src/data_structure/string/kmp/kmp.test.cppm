@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:data_structure.string.kmp.test;
+export module creep:data_structure.string.kmp.test;
 
 import :random;
 import :data_structure.string;
 import std;
 
-using namespace mtea;
+using namespace creep;
 
 constexpr std::size_t test_count = 1e3;
 constexpr std::size_t str_len = 1e3;

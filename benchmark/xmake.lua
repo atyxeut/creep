@@ -9,15 +9,15 @@ set_optimize("fastest")
 add_cxxflags("-fcontract-evaluation-semantic=ignore")
 
 if is_mode("debug") then
-  target("mtea.benchmark")
+  target("creep.benchmark")
     set_kind("moduleonly")
     add_files("../src/**.cppm", { public = true })
-    remove_files("../src/mtea.cppm", "../src/**.test.cppm")
+    remove_files("../src/creep.cppm", "../src/**.test.cppm")
   target_end()
 
   target("benchmark.hoare_quick_sort_variations")
     set_kind("binary")
-    add_deps("mtea.benchmark")
+    add_deps("creep.benchmark")
     add_files("sort/hoare_quick_sort_variations.cpp")
   target_end()
 end

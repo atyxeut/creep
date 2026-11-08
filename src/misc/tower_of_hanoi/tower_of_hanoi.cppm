@@ -5,14 +5,14 @@ module;
 
 #include <macro/wconversion_flag.hpp>
 
-export module mtea:misc.tower_of_hanoi;
+export module creep:misc.tower_of_hanoi;
 
 import :math.number.integer;
 import std;
 
-MTEA_WCONVERSION_PUSH()
+CREEP_WCONVERSION_PUSH()
 
-namespace mtea::tower_of_hanoi {
+namespace creep::tower_of_hanoi {
 
 // the 3-peg Tower of Hanoi problem
 //
@@ -35,9 +35,9 @@ constexpr peg_type peg_cnt = 3;
 constexpr auto peg_name_upper = "ABC";
 constexpr auto peg_name_lower = "abc";
 
-} // namespace mtea::tower_of_hanoi
+} // namespace creep::tower_of_hanoi
 
-export namespace mtea::tower_of_hanoi::count_move {
+export namespace creep::tower_of_hanoi::count_move {
 
 // initially all disks stack on one peg `from`, finally they all stack on one peg `to`
 [[nodiscard]] constexpr move_cnt_type from_one_to_one_case(peg_type disk_cnt) noexcept(nothrow_fn) {
@@ -94,9 +94,9 @@ export namespace mtea::tower_of_hanoi::count_move {
   return from_one_to_one_case(disk_cnt - 1) + 1 + from_one_to_different_case(disk_cnt - 1, aux, to_list);
 }
 
-} // export namespace mtea::tower_of_hanoi::count_move
+} // export namespace creep::tower_of_hanoi::count_move
 
-namespace mtea::tower_of_hanoi::count_move {
+namespace creep::tower_of_hanoi::count_move {
 
 // move the largest disk from peg `from` to peg `to` using only one step (in most cases this is optimal)
 [[nodiscard]] constexpr move_cnt_type general_case_one_step_strategy(
@@ -143,9 +143,9 @@ namespace mtea::tower_of_hanoi::count_move {
          + from_one_to_different_case(disk_cnt - 1, from, to_list);
 }
 
-} // namespace mtea::tower_of_hanoi::count_move
+} // namespace creep::tower_of_hanoi::count_move
 
-export namespace mtea::tower_of_hanoi::count_move {
+export namespace creep::tower_of_hanoi::count_move {
 
 // initially all disks stack scatteredly, and finally they also stack scatteredly
 [[nodiscard]] constexpr move_cnt_type general_case(
@@ -164,18 +164,18 @@ export namespace mtea::tower_of_hanoi::count_move {
   );
 }
 
-} // export namespace mtea::tower_of_hanoi::count_move
+} // export namespace creep::tower_of_hanoi::count_move
 
-namespace mtea::tower_of_hanoi::print_move {
+namespace creep::tower_of_hanoi::print_move {
 
 void move(peg_type disk, peg_type from, peg_type to, bool upper_case = true) {
   const auto& peg_name = upper_case ? peg_name_upper : peg_name_lower;
   std::println("move {} from {} to {}", disk, peg_name[from], peg_name[to]);
 }
 
-} // namespace mtea::tower_of_hanoi::print_move
+} // namespace creep::tower_of_hanoi::print_move
 
-export namespace mtea::tower_of_hanoi::print_move {
+export namespace creep::tower_of_hanoi::print_move {
 
 void from_one_to_one_case(peg_type disk_cnt, peg_type from, peg_type to) {
   if (disk_cnt == 0)
@@ -245,6 +245,6 @@ void general_case(peg_type disk_cnt, std::span<const peg_type> from_list, std::s
   }
 }
 
-} // export namespace mtea::tower_of_hanoi::print_move
+} // export namespace creep::tower_of_hanoi::print_move
 
-MTEA_WCONVERSION_POP()
+CREEP_WCONVERSION_POP()

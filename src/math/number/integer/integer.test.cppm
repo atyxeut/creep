@@ -1,14 +1,14 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:math.number.integer.test;
+export module creep:math.number.integer.test;
 
 import :io;
 import :math.number.integer;
 import std;
 
-using namespace mtea;
-using namespace mtea::meta;
+using namespace creep;
+using namespace creep::meta;
 
 consteval void check_is_boolean() {
   static_assert(is_boolean_v<int> == false);
@@ -64,7 +64,7 @@ void check_int128_output_with_std_ostream_and_std_print() {
 
 } // export
 
-using namespace mtea::big_integer;
+using namespace creep::big_integer;
 
 export {
 

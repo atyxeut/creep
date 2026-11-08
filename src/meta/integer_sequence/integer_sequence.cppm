@@ -1,18 +1,18 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:meta.integer_sequence;
+export module creep:meta.integer_sequence;
 
 import std;
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 template <std::size_t N>
 using index_constant = std::integral_constant<std::size_t, N>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <typename>
 struct make_reversed_integer_sequence_impl;
@@ -22,9 +22,9 @@ struct make_reversed_integer_sequence_impl<std::integer_sequence<Int, Is...>> {
   using type = std::integer_sequence<Int, (sizeof...(Is) - 1 - Is)...>;
 };
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // generate a sequence of integers of type T in [0, N) in a reversed order
 //
@@ -38,9 +38,9 @@ using make_reversed_index_sequence = make_reversed_integer_sequence<std::size_t,
 template <typename... Ts>
 using reversed_index_sequence_for = make_reversed_index_sequence<sizeof...(Ts)>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <typename Int, Int, typename>
 struct make_integer_sequence_of_range_impl;
@@ -50,9 +50,9 @@ struct make_integer_sequence_of_range_impl<Int, Begin, std::integer_sequence<Int
   using type = std::integer_sequence<Int, (Begin + Is)...>;
 };
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // generate a sequence of integers of type T in [Begin, End]
 //
@@ -64,9 +64,9 @@ using make_integer_sequence_of_range = make_integer_sequence_of_range_impl<T, Be
 template <std::size_t Begin, std::size_t End>
 using make_index_sequence_of_range = make_integer_sequence_of_range<std::size_t, Begin, End>;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta
 
-namespace mtea::meta {
+namespace creep::meta {
 
 template <typename Int, Int, typename>
 struct make_reversed_integer_sequence_of_range_impl;
@@ -76,9 +76,9 @@ struct make_reversed_integer_sequence_of_range_impl<Int, End, std::integer_seque
   using type = std::integer_sequence<Int, (End - Is)...>;
 };
 
-} // namespace mtea::meta
+} // namespace creep::meta
 
-export namespace mtea::meta {
+export namespace creep::meta {
 
 // generate a sequence of integers of type T in [Begin, End] in a reversed order
 //
@@ -140,4 +140,4 @@ using is_no_duplication_integer_sequence = is_no_cv_no_duplication_integer_seque
 template <typename T>
 inline constexpr bool is_no_duplication_integer_sequence_v = is_no_duplication_integer_sequence<T>::value;
 
-} // export namespace mtea::meta
+} // export namespace creep::meta

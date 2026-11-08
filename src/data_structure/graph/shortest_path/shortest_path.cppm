@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:data_structure.graph.shortest_path;
+export module creep:data_structure.graph.shortest_path;
 
 import :data_structure.graph.storage;
 import :meta;
@@ -10,13 +10,13 @@ import std;
 // sssp: single-source shortest path
 // apsp: all-pairs shortest path
 
-export namespace mtea::graph {
+export namespace creep::graph {
 
 enum class shortest_path_error { empty_graph, negative_cycle };
 
-} // export namespace mtea::graph
+} // export namespace creep::graph
 
-namespace mtea::graph::sssp {
+namespace creep::graph::sssp {
 
 // brief explaination for correctness:
 // 1. the shortest path can have at most V - 1 edges
@@ -55,9 +55,9 @@ template <typename EdgeList, typename Vertex, typename Weight = EdgeList::weight
   return distance;
 }
 
-} // namespace mtea::graph::sssp
+} // namespace creep::graph::sssp
 
-export namespace mtea::graph::sssp {
+export namespace creep::graph::sssp {
 
 template <typename Edge, typename Vertex = typename Edge::vertex_size>
 [[nodiscard]] constexpr auto bellman_ford(const edge_list<Edge>& edges, Vertex vertex_count, Vertex source) {
@@ -199,8 +199,8 @@ template <graph T, typename Vertex = T::vertex_type, typename Weight = T::weight
   return distance;
 }
 
-} // export namespace mtea::graph::sssp
+} // export namespace creep::graph::sssp
 
-export namespace mtea::graph::apsp {
+export namespace creep::graph::apsp {
 
-} // export namespace mtea::graph::apsp
+} // export namespace creep::graph::apsp

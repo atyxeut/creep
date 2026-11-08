@@ -1,11 +1,11 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-export module mtea:data_structure.tuple;
+export module creep:data_structure.tuple;
 
 import std;
 
-export namespace mtea {
+export namespace creep {
 
 template <typename T1, typename T2, std::convertible_to<std::string> Delim = std::string>
 void print(std::ostream& ostr, const std::pair<T1, T2>& p, Delim&& delim = std::string(1, ' '), bool new_line = false) {
@@ -15,19 +15,19 @@ void print(std::ostream& ostr, const std::pair<T1, T2>& p, Delim&& delim = std::
     ostr << '\n';
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-export namespace mtea::inline operator_overload::inline io_operator {
+export namespace creep::inline operator_overload::inline io_operator {
 
 template <typename T1, typename T2>
 auto& operator <<(std::ostream& ostr, const std::pair<T1, T2>& p) {
-  ::mtea::print(ostr, p);
+  ::creep::print(ostr, p);
   return ostr;
 }
 
-} // export namespace mtea::inline operator_overload::inline io_operator
+} // export namespace creep::inline operator_overload::inline io_operator
 
-export namespace mtea {
+export namespace creep {
 
 template <typename... Ts, std::convertible_to<std::string> Delim = std::string>
 void print(std::ostream& ostr, const std::tuple<Ts...>& t, Delim&& delim = std::string(1, ' '), bool new_line = false) {
@@ -39,14 +39,14 @@ void print(std::ostream& ostr, const std::tuple<Ts...>& t, Delim&& delim = std::
     ostr << '\n';
 }
 
-} // export namespace mtea
+} // export namespace creep
 
-export namespace mtea::inline operator_overload::inline io_operator {
+export namespace creep::inline operator_overload::inline io_operator {
 
 template <typename... Ts>
 auto& operator <<(std::ostream& ostr, const std::tuple<Ts...>& t) {
-  ::mtea::print(ostr, t);
+  ::creep::print(ostr, t);
   return ostr;
 }
 
-} // export namespace mtea::inline operator_overload::inline io_operator
+} // export namespace creep::inline operator_overload::inline io_operator

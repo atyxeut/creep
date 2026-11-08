@@ -2,7 +2,7 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 set_xmakever("3.1.2")
-set_project("modern-templated-algorithms")
+set_project("creep")
 set_languages("cxx26")
 
 add_rules("mode.debug", "mode.release")

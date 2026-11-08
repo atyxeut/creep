@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: 2026 atyxeut <atyxeut@outlook.com>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-export module mtea:meta.integer_sequence.test;
+export module creep:meta.integer_sequence.test;
 
 import :meta.integer_sequence;
 import std;
 
-using namespace mtea::meta;
+using namespace creep::meta;
 
 consteval void check_custom_integer_sequence_helpers() {
   static_assert(std::same_as<make_reversed_integer_sequence<int, 8>, std::integer_sequence<int, 7, 6, 5, 4, 3, 2, 1, 0>>);
