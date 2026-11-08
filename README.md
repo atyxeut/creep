@@ -1,4 +1,4 @@
-# creep: The slow-growing substrate that makes what's on it run faster.
+# Creep: slow-growing substrate that makes what's on it run faster
 
 A high performance, pure-module C++ library.
 
