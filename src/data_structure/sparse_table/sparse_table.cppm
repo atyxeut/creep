@@ -27,7 +27,8 @@ private:
   const size_type max_exp_p1_;
 
 private:
-  [[nodiscard]] constexpr size_type map_(size_type i, size_type j) const noexcept
+  [[nodiscard]] constexpr
+  size_type map_(size_type i, size_type j) const noexcept
   // ICE:
   // post(idx : idx < this->buffer_.size)
   {
@@ -69,9 +70,10 @@ public:
   }
 
 public:
-  [[nodiscard]] constexpr T query(
-    size_type l, size_type r
-  ) const noexcept(std::is_nothrow_invocable_v<const Merge&, const T&, const T&>) pre(l <= r) {
+  [[nodiscard]] constexpr
+  T query(size_type l, size_type r) const noexcept(std::is_nothrow_invocable_v<const Merge&, const T&, const T&>) pre(
+    l <= r
+  ) {
     if constexpr (meta::idempotent_operator<T, Merge>) {
       const size_type j = ilog2(r - l + 1);
       return std::invoke(

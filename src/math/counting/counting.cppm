@@ -12,7 +12,8 @@ namespace creep {
 // count occurrences of digit x in all integers in [0, n]
 // time complexity: O(log n)
 template <typename T>
-[[nodiscard]] constexpr meta::make_higher_precision_t<T> count_digit_occurrence_impl(const T& n, int x) {
+[[nodiscard]] constexpr
+meta::make_higher_precision_t<T> count_digit_occurrence_impl(const T& n, int x) {
   // the answer will easily exceed n, for example: for n = 2147483647, all answers for x in [0, 9] exceed 2147483647
   meta::make_higher_precision_t<T> ans = 0;
 
@@ -57,9 +58,8 @@ template <typename T>
 export namespace creep {
 
 template <meta::fixed_precision_integral T>
-[[nodiscard]] constexpr auto count_digit_occurrence(const T& l, const T& r, int x) pre(0 <= l && l <= r) pre(
-  0 <= x && x <= 9
-) {
+[[nodiscard]] constexpr
+auto count_digit_occurrence(const T& l, const T& r, int x) pre(0 <= l && l <= r) pre(0 <= x && x <= 9) {
   if (l == 0)
     return count_digit_occurrence_impl(r, x);
 
@@ -69,7 +69,8 @@ template <meta::fixed_precision_integral T>
 // count occurrences of digit x in n
 // time complexity: O(log n)
 template <meta::fixed_precision_integral T>
-[[nodiscard]] constexpr T count_digit_occurrence(T n, int x) noexcept pre(n >= 0) pre(0 <= x && x <= 9) {
+[[nodiscard]] constexpr
+T count_digit_occurrence(T n, int x) noexcept pre(n >= 0) pre(0 <= x && x <= 9) {
   T ans = 0;
   while (n != 0) {
     ans += n % 10 == x;

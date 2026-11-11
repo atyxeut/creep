@@ -100,7 +100,7 @@ PackParameters:
 AllowAllArgumentsOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
 BreakAfterAttributes: Leave
-BreakBeforeReturnType: None
+BreakBeforeReturnType: AllDefinitions
 IndentWrappedFunctionNames: false
 SpaceAfterOperatorKeyword: true
 AllowBreakBeforeNoexceptSpecifier: OnlyWithParen
@@ -138,7 +138,7 @@ AllowShortNamespacesOnASingleLine: false
 # template
 SpaceAfterTemplateKeyword: true
 BreakBeforeTemplateCloser: true
-BreakTemplateDeclarations: Leave
+BreakTemplateDeclarations: Yes
 BreakBeforeConceptDeclarations: Always
 IndentRequiresClause: true
 RequiresExpressionIndentation: OuterScope

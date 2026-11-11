@@ -8,7 +8,8 @@ import std;
 
 using namespace creep;
 
-consteval void check_edge_class_aggregate_initialization() {
+consteval
+void check_edge_class_aggregate_initialization() {
   using T0 = graph::undirected_edge<std::size_t, std::size_t, std::size_t, int>;
   static_assert(std::is_aggregate_v<T0>);
   T0 complete_edge {0, 5, 6, 998244353};

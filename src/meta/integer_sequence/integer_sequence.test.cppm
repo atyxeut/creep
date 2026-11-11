@@ -8,7 +8,8 @@ import std;
 
 using namespace creep::meta;
 
-consteval void check_custom_integer_sequence_helpers() {
+consteval
+void check_custom_integer_sequence_helpers() {
   {
     using target = std::integer_sequence<int, 7, 6, 5, 4, 3, 2, 1, 0>;
     static_assert(std::same_as<make_reversed_integer_sequence<int, 8>, target>);
@@ -55,7 +56,8 @@ consteval void check_custom_integer_sequence_helpers() {
   }
 }
 
-consteval void check_is_no_duplication_integer_sequence() {
+consteval
+void check_is_no_duplication_integer_sequence() {
   static_assert(is_no_duplication_integer_sequence_v<std::integer_sequence<int>> == true);
   static_assert(is_no_duplication_integer_sequence_v<std::integer_sequence<int, 1>> == true);
   static_assert(is_no_duplication_integer_sequence_v<std::integer_sequence<int, 1, 2>> == true);

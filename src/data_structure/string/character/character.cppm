@@ -33,7 +33,8 @@ inline constexpr auto& radix_digits = radix_digits_impl<LetterCase, std::make_in
 
 export namespace creep {
 
-[[nodiscard]] constexpr bool is_ascii_digit(char ch) noexcept {
+[[nodiscard]] constexpr
+bool is_ascii_digit(char ch) noexcept {
   return '0' <= ch & ch <= '9';
 }
 

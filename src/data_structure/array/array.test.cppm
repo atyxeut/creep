@@ -9,7 +9,8 @@ import std;
 
 using namespace creep;
 
-consteval void is_creep_array_nested_std_array() {
+consteval
+void is_creep_array_nested_std_array() {
   using T1 = std::array<double, 10>;
   using T1_ = array<double, 10>;
   static_assert(std::same_as<T1, T1_>);
@@ -27,7 +28,8 @@ consteval void is_creep_array_nested_std_array() {
   static_assert(std::same_as<T4, T4_>);
 }
 
-consteval void is_creep_vector_nested_std_vector() {
+consteval
+void is_creep_vector_nested_std_vector() {
   using T1 = std::vector<double>;
   using T1_ = vector<double>;
   static_assert(std::same_as<T1, T1_>);
@@ -48,7 +50,8 @@ consteval void is_creep_vector_nested_std_vector() {
   static_assert(std::same_as<T4, T4_>);
 }
 
-consteval void do_creep_vector_allocators_default_to_std_allocator() {
+consteval
+void do_creep_vector_allocators_default_to_std_allocator() {
   using T1 = std::pmr::vector<double>;
   using T1_ = vector<double, 1, std::pmr::polymorphic_allocator<double>>;
   static_assert(std::same_as<T1, T1_>);

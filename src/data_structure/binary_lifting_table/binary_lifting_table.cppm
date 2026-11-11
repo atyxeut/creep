@@ -62,7 +62,10 @@ private:
   const size_type max_exp_p1_;
 
 private:
-  [[nodiscard]] constexpr size_type map_(size_type i, size_type j) const noexcept { return i * max_exp_p1_ + j; }
+  [[nodiscard]] constexpr
+  size_type map_(size_type i, size_type j) const noexcept {
+    return i * max_exp_p1_ + j;
+  }
 
 public:
   template <std::ranges::forward_range R, typename P = Policy>
@@ -115,7 +118,8 @@ public:
   }
 
 public:
-  [[nodiscard]] constexpr auto query(size_type i, size_type distance, T identity_element) const noexcept(
+  [[nodiscard]] constexpr
+  auto query(size_type i, size_type distance, T identity_element) const noexcept(
     noexcept(std::is_nothrow_invocable_v<merge_type, T, T> && std::is_nothrow_invocable_v<project_type, T>)
   ) {
     T result = std::move(identity_element);

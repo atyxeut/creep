@@ -7,7 +7,8 @@ import std;
 
 export namespace creep {
 
-[[nodiscard]] constexpr std::vector<std::size_t> kmp_search_next_array(std::string_view pattern) noexcept {
+[[nodiscard]] constexpr
+std::vector<std::size_t> kmp_search_next_array(std::string_view pattern) noexcept {
   std::vector<std::size_t> res(pattern.size());
   for (auto i = 1uz, len = 0uz; i < pattern.size();) {
     if (pattern[i] == pattern[len])
@@ -30,9 +31,8 @@ template <kmp_search_policy P>
 using kmp_search_result_t = std::conditional_t<P == kmp_search_policy::first, std::size_t, std::vector<std::size_t>>;
 
 template <kmp_search_policy P, typename R>
-[[nodiscard]] constexpr kmp_search_result_t<P> kmp_search_impl(
-  std::string_view src, std::string_view pattern, R&& next
-) noexcept {
+[[nodiscard]] constexpr
+kmp_search_result_t<P> kmp_search_impl(std::string_view src, std::string_view pattern, R&& next) noexcept {
   if (pattern.empty()) {
     if constexpr (P == kmp_search_policy::first)
       return 0;
@@ -78,12 +78,14 @@ template <kmp_search_policy P, typename R>
 export namespace creep {
 
 template <std::ranges::random_access_range R>
-[[nodiscard]] constexpr auto kmp_search_first(std::string_view src, std::string_view pattern, R&& next) noexcept {
+[[nodiscard]] constexpr
+auto kmp_search_first(std::string_view src, std::string_view pattern, R&& next) noexcept {
   return kmp_search_impl<kmp_search_policy::first>(src, pattern, std::forward<R>(next));
 }
 
 template <std::ranges::random_access_range R>
-[[nodiscard]] constexpr auto kmp_search_all(std::string_view src, std::string_view pattern, R&& next) noexcept {
+[[nodiscard]] constexpr
+auto kmp_search_all(std::string_view src, std::string_view pattern, R&& next) noexcept {
   return kmp_search_impl<kmp_search_policy::all>(src, pattern, std::forward<R>(next));
 }
 

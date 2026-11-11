@@ -16,18 +16,21 @@ inline std::mt19937 mt19937_engine(seed_generator());
 inline std::mt19937_64 mt19937_64_engine(seed_generator());
 
 template <std::integral T>
-[[nodiscard]] auto uniform_distribution(T l, T r) {
+[[nodiscard]]
+auto uniform_distribution(T l, T r) {
   return std::uniform_int_distribution<T>(l, r);
 }
 
 template <std::floating_point T>
-[[nodiscard]] auto uniform_distribution(T l, T r) {
+[[nodiscard]]
+auto uniform_distribution(T l, T r) {
   return std::uniform_real_distribution<T>(l, r);
 }
 
 template <typename T, typename Engine = std::mt19937>
   requires std::is_arithmetic_v<T>
-[[nodiscard]] auto rand_number(T l, T r, Engine& engine = mt19937_engine) {
+[[nodiscard]]
+auto rand_number(T l, T r, Engine& engine = mt19937_engine) {
   return uniform_distribution(l, r)(engine);
 }
 
@@ -36,7 +39,8 @@ template <typename T, typename Engine = std::mt19937>
 namespace creep::random {
 
 template <bool AllowNegative>
-[[nodiscard]] std::string rand_big_integer_impl(std::size_t length) {
+[[nodiscard]]
+std::string rand_big_integer_impl(std::size_t length) {
   if (length == 0)
     throw std::invalid_argument("length must be positive");
 
@@ -58,23 +62,27 @@ template <bool AllowNegative>
 
 export namespace creep::random {
 
-[[nodiscard]] auto rand_big_integer(std::size_t length) {
+[[nodiscard]]
+auto rand_big_integer(std::size_t length) {
   return rand_big_integer_impl<true>(length);
 }
 
-[[nodiscard]] auto rand_positive_big_integer(std::size_t length) {
+[[nodiscard]]
+auto rand_positive_big_integer(std::size_t length) {
   return rand_big_integer_impl<false>(length);
 }
 
 template <std::integral T>
-[[nodiscard]] std::vector<T> rand_permutation(T size) pre(size > 0) {
+[[nodiscard]]
+std::vector<T> rand_permutation(T size) pre(size > 0) {
   std::vector<T> data(size);
   std::iota(data.begin(), data.end(), static_cast<T>(1));
   std::ranges::shuffle(data, mt19937_engine);
   return data;
 }
 
-[[nodiscard]] std::string rand_ascii_string(std::size_t size) {
+[[nodiscard]]
+std::string rand_ascii_string(std::size_t size) {
   std::string res;
   res.reserve(size);
   while (size--)
@@ -83,7 +91,8 @@ template <std::integral T>
 }
 
 template <typename T, typename Fn>
-[[nodiscard]] std::vector<T> rand_vector(std::size_t size, Fn&& fn) {
+[[nodiscard]]
+std::vector<T> rand_vector(std::size_t size, Fn&& fn) {
   std::vector<T> res(size);
   std::ranges::generate(res, std::forward<Fn>(fn));
   std::ranges::shuffle(res, mt19937_engine);
@@ -92,7 +101,8 @@ template <typename T, typename Fn>
 
 template <typename T>
   requires std::is_arithmetic_v<T>
-[[nodiscard]] auto rand_number_vector(
+[[nodiscard]]
+auto rand_number_vector(
   std::size_t size, T begin = std::numeric_limits<T>::min(), T end = std::numeric_limits<T>::max()
 ) {
   return rand_vector<T>(size, [=] { return rand_number(begin, end); });

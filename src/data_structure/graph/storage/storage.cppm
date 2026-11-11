@@ -22,13 +22,19 @@ struct common_trait_base {
   using order_difference_type = std::make_signed_t<order_type>;
 
   using weight_type = Weight;
-  [[nodiscard]] static consteval bool is_weighted() noexcept { return !std::same_as<Weight, void>; }
+  [[nodiscard]] static consteval
+  bool is_weighted() noexcept {
+    return !std::same_as<Weight, void>;
+  }
 };
 
 template <direction Direction, typename Id, typename Order, typename Weight>
 struct edge_trait_base : common_trait_base<Direction, Order, Weight> {
   using id_type = Id;
-  [[nodiscard]] static consteval bool has_id() noexcept { return !std::same_as<id_type, void>; }
+  [[nodiscard]] static consteval
+  bool has_id() noexcept {
+    return !std::same_as<id_type, void>;
+  }
 };
 
 template <direction Direction, typename Order, typename Weight, typename Size>
@@ -202,23 +208,59 @@ private:
   std::vector<Edge> edges_;
 
 public:
-  [[nodiscard]] constexpr bool empty() const noexcept { return edges_.empty(); }
+  [[nodiscard]] constexpr
+  bool empty() const noexcept {
+    return edges_.empty();
+  }
 
-  [[nodiscard]] constexpr auto order() const noexcept { return order_; }
-  [[nodiscard]] constexpr auto size() const noexcept { return edges_.size(); }
+  [[nodiscard]] constexpr
+  auto order() const noexcept {
+    return order_;
+  }
 
-  [[nodiscard]] constexpr auto begin() noexcept { return edges_.begin(); }
-  [[nodiscard]] constexpr auto begin() const noexcept { return edges_.begin(); }
+  [[nodiscard]] constexpr
+  auto size() const noexcept {
+    return edges_.size();
+  }
 
-  [[nodiscard]] constexpr auto end() noexcept { return edges_.end(); }
-  [[nodiscard]] constexpr auto end() const noexcept { return edges_.end(); }
+  [[nodiscard]] constexpr
+  auto begin() noexcept {
+    return edges_.begin();
+  }
 
-  [[nodiscard]] constexpr auto& operator [](Size idx) { return edges_[idx]; }
-  [[nodiscard]] constexpr auto& operator [](Size idx) const { return edges_[idx]; }
+  [[nodiscard]] constexpr
+  auto begin() const noexcept {
+    return edges_.begin();
+  }
 
-  constexpr void reserve(Size capacity) { edges_.reserve(capacity); }
+  [[nodiscard]] constexpr
+  auto end() noexcept {
+    return edges_.end();
+  }
 
-  template <typename... Args> constexpr void add_edge(Args&&... args) {
+  [[nodiscard]] constexpr
+  auto end() const noexcept {
+    return edges_.end();
+  }
+
+  [[nodiscard]] constexpr
+  auto& operator [](Size idx) {
+    return edges_[idx];
+  }
+
+  [[nodiscard]] constexpr
+  auto& operator [](Size idx) const {
+    return edges_[idx];
+  }
+
+  constexpr
+  void reserve(Size capacity) {
+    edges_.reserve(capacity);
+  }
+
+  template <typename... Args>
+  constexpr
+  void add_edge(Args&&... args) {
     edges_.emplace_back(std::forward<Args>(args)...);
   }
 };

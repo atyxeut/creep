@@ -17,7 +17,8 @@ export namespace creep {
 
 template <std::bidirectional_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
-constexpr void insertion_sort(I first, I last, Comparator comp = std::ranges::less {}) pre(
+constexpr
+void insertion_sort(I first, I last, Comparator comp = std::ranges::less {}) pre(
   std::ranges::distance(first, last) >= 0
 ) {
   if (first == last)
@@ -37,7 +38,8 @@ constexpr void insertion_sort(I first, I last, Comparator comp = std::ranges::le
 
 template <std::bidirectional_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
-constexpr void binary_insertion_sort(I first, I last, Comparator comp = std::ranges::less {}) pre(
+constexpr
+void binary_insertion_sort(I first, I last, Comparator comp = std::ranges::less {}) pre(
   std::ranges::distance(first, last) >= 0
 ) {
   if (first == last)
@@ -53,7 +55,8 @@ constexpr void binary_insertion_sort(I first, I last, Comparator comp = std::ran
 
 template <typename Iter, typename Comparator = std::ranges::less>
   requires comparison_sortable<Iter, Comparator>
-constexpr void selection_sort(Iter first, Iter last, Comparator comp = std::ranges::less {}) pre(
+constexpr
+void selection_sort(Iter first, Iter last, Comparator comp = std::ranges::less {}) pre(
   std::ranges::distance(first, last) >= 0
 ) {
   if (first == last)
@@ -65,9 +68,8 @@ constexpr void selection_sort(Iter first, Iter last, Comparator comp = std::rang
 
 template <std::bidirectional_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
-constexpr void bubble_sort(I first, I last, Comparator comp = std::ranges::less {}) pre(
-  std::ranges::distance(first, last) >= 0
-) {
+constexpr
+void bubble_sort(I first, I last, Comparator comp = std::ranges::less {}) pre(std::ranges::distance(first, last) >= 0) {
   if (first == last)
     return;
 
@@ -89,7 +91,8 @@ constexpr void bubble_sort(I first, I last, Comparator comp = std::ranges::less 
 namespace creep {
 
 template <typename Iter, typename Comparator>
-constexpr void heap_sort_sift_down(
+constexpr
+void heap_sort_sift_down(
   std::iter_difference_t<Iter> size, std::iter_difference_t<Iter> cur, Iter first, Comparator comp
 ) {
   while (cur < size / 2) {
@@ -110,7 +113,8 @@ export namespace creep {
 
 template <std::random_access_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
-constexpr void heap_sort(I first, I last, Comparator comp = std::ranges::less {}) {
+constexpr
+void heap_sort(I first, I last, Comparator comp = std::ranges::less {}) {
   auto size = last - first;
   for (auto i = size / 2 - 1; i >= 0; --i)
     heap_sort_sift_down(size, i, first, comp);
@@ -125,7 +129,8 @@ constexpr void heap_sort(I first, I last, Comparator comp = std::ranges::less {}
 namespace creep {
 
 template <typename Iter, typename Comparator>
-constexpr Iter quick_sort_pivot_median_of_3(Iter first, Iter last, Comparator comp) pre(last - first > 2) {
+constexpr
+Iter quick_sort_pivot_median_of_3(Iter first, Iter last, Comparator comp) pre(last - first > 2) {
   const auto mid = first + (--last - first) / 2;
   if (comp(*mid, *first))
     std::ranges::iter_swap(first, mid);
@@ -139,9 +144,8 @@ constexpr Iter quick_sort_pivot_median_of_3(Iter first, Iter last, Comparator co
 struct quick_sort_lomuto_partition_tag {};
 
 template <typename Iter, typename Comparator>
-[[nodiscard]] constexpr std::array<Iter, 2> quick_sort_partition(
-  Iter first, Iter last, Comparator comp, quick_sort_lomuto_partition_tag
-) {
+[[nodiscard]] constexpr
+std::array<Iter, 2> quick_sort_partition(Iter first, Iter last, Comparator comp, quick_sort_lomuto_partition_tag) {
   const auto mid = quick_sort_pivot_median_of_3(first++, last, comp);
   std::ranges::iter_swap(first, mid);
   const auto pivot = first;
@@ -155,9 +159,8 @@ template <typename Iter, typename Comparator>
 struct quick_sort_dijkstra_partition_tag {};
 
 template <typename Iter, typename Comparator>
-[[nodiscard]] constexpr std::array<Iter, 2> quick_sort_partition(
-  Iter first, Iter last, Comparator comp, quick_sort_dijkstra_partition_tag
-) {
+[[nodiscard]] constexpr
+std::array<Iter, 2> quick_sort_partition(Iter first, Iter last, Comparator comp, quick_sort_dijkstra_partition_tag) {
   // during the core loop, the pivot can be moved, but `*first == pivot` always hold
   std::ranges::iter_swap(first, quick_sort_pivot_median_of_3(first, last, comp));
   for (auto i = first + 1; i != last;) {
@@ -177,7 +180,8 @@ template <quick_sort_hoare_partition_bound_check>
 struct quick_sort_hoare_partition_tag {};
 
 template <typename Iter, typename Comparator, quick_sort_hoare_partition_bound_check BoundCheckFlag>
-[[nodiscard]] constexpr std::array<Iter, 2> quick_sort_partition(
+[[nodiscard]] constexpr
+std::array<Iter, 2> quick_sort_partition(
   Iter first, Iter last, Comparator comp, quick_sort_hoare_partition_tag<BoundCheckFlag>
 ) {
   constexpr bool bound_check_off = BoundCheckFlag == quick_sort_hoare_partition_bound_check::off;
@@ -200,14 +204,16 @@ template <typename Iter, typename Comparator, quick_sort_hoare_partition_bound_c
 struct quick_sort_bentley_mcilroy_partition_tag {};
 
 template <typename Iter, typename Comparator>
-[[nodiscard]] constexpr std::array<Iter, 2> quick_sort_partition(
+[[nodiscard]] constexpr
+std::array<Iter, 2> quick_sort_partition(
   Iter first, Iter last, Comparator comp, quick_sort_bentley_mcilroy_partition_tag
 ) {
   return {};
 }
 
 template <typename PartitionPolicy, typename Iter, typename Comparator>
-constexpr void recursive_quick_sort_impl(Iter first, Iter last, Comparator comp) {
+constexpr
+void recursive_quick_sort_impl(Iter first, Iter last, Comparator comp) {
   const auto size = last - first;
   if (size < 2)
     return;
@@ -233,19 +239,22 @@ export namespace creep {
 
 template <std::random_access_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
-constexpr void recursive_lomuto_quick_sort(I first, I last, Comparator comp = std::ranges::less {}) {
+constexpr
+void recursive_lomuto_quick_sort(I first, I last, Comparator comp = std::ranges::less {}) {
   recursive_quick_sort_impl<quick_sort_lomuto_partition_tag>(first, last, comp);
 }
 
 template <std::random_access_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
-constexpr void recursive_dijkstra_quick_sort(I first, I last, Comparator comp = std::ranges::less {}) {
+constexpr
+void recursive_dijkstra_quick_sort(I first, I last, Comparator comp = std::ranges::less {}) {
   recursive_quick_sort_impl<quick_sort_dijkstra_partition_tag>(first, last, comp);
 }
 
 template <std::random_access_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
-constexpr void recursive_hoare_quick_sort(I first, I last, Comparator comp = std::ranges::less {}) {
+constexpr
+void recursive_hoare_quick_sort(I first, I last, Comparator comp = std::ranges::less {}) {
   recursive_quick_sort_impl<quick_sort_hoare_partition_tag<quick_sort_hoare_partition_bound_check::off>>(
     first, last, comp
   );
@@ -253,7 +262,8 @@ constexpr void recursive_hoare_quick_sort(I first, I last, Comparator comp = std
 
 template <std::random_access_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
-constexpr void recursive_hoare_quick_sort_less_comparison(I first, I last, Comparator comp = std::ranges::less {}) {
+constexpr
+void recursive_hoare_quick_sort_less_comparison(I first, I last, Comparator comp = std::ranges::less {}) {
   recursive_quick_sort_impl<quick_sort_hoare_partition_tag<quick_sort_hoare_partition_bound_check::on>>(
     first, last, comp
   );
@@ -261,7 +271,8 @@ constexpr void recursive_hoare_quick_sort_less_comparison(I first, I last, Compa
 
 template <std::random_access_iterator I, typename Comparator = std::ranges::less>
   requires comparison_sortable<I, Comparator>
-constexpr void recursive_bentley_mcilroy_quick_sort(I first, I last, Comparator comp = std::ranges::less {}) {
+constexpr
+void recursive_bentley_mcilroy_quick_sort(I first, I last, Comparator comp = std::ranges::less {}) {
   recursive_quick_sort_impl<quick_sort_bentley_mcilroy_partition_tag>(first, last, comp);
 }
 
@@ -272,9 +283,8 @@ namespace creep {
 enum class merge_sort_merge_policy { normal, inplace };
 
 template <typename Iter, typename Comparator>
-constexpr void merge_sort_normal_merge_impl(
-  std::iter_difference_t<Iter> size, Iter first, Iter mid, Iter last, Comparator comp
-) {
+constexpr
+void merge_sort_normal_merge_impl(std::iter_difference_t<Iter> size, Iter first, Iter mid, Iter last, Comparator comp) {
   std::vector<std::iter_value_t<Iter>> buffer;
   buffer.reserve(static_cast<std::size_t>(size));
   std::merge(first, mid, mid, last, std::back_inserter(buffer), comp);
@@ -282,7 +292,8 @@ constexpr void merge_sort_normal_merge_impl(
 }
 
 template <merge_sort_merge_policy Policy, std::random_access_iterator I, typename Comparator>
-constexpr void merge_sort_impl_recursive(I first, I last, Comparator comp) {
+constexpr
+void merge_sort_impl_recursive(I first, I last, Comparator comp) {
   const auto size = std::ranges::distance(first, last);
   if (size < 2)
     return;
@@ -298,7 +309,8 @@ constexpr void merge_sort_impl_recursive(I first, I last, Comparator comp) {
 }
 
 template <merge_sort_merge_policy Policy, std::forward_iterator I, typename Comparator>
-constexpr void merge_sort_impl_recursive(I first, I last, Comparator comp) {
+constexpr
+void merge_sort_impl_recursive(I first, I last, Comparator comp) {
   //
 }
 
@@ -308,13 +320,15 @@ export namespace creep {
 
 template <typename Iter, typename Comparator = std::ranges::less>
   requires comparison_sortable<Iter, Comparator>
-constexpr void merge_sort(Iter first, Iter last, Comparator comp = std::ranges::less {}) {
+constexpr
+void merge_sort(Iter first, Iter last, Comparator comp = std::ranges::less {}) {
   merge_sort_impl_recursive<merge_sort_merge_policy::normal>(first, last, comp);
 }
 
 template <typename Iter, typename Comparator = std::ranges::less>
   requires comparison_sortable<Iter, Comparator>
-constexpr void inplace_merge_sort(Iter first, Iter last, Comparator comp = std::ranges::less {}) {
+constexpr
+void inplace_merge_sort(Iter first, Iter last, Comparator comp = std::ranges::less {}) {
   merge_sort_impl_recursive<merge_sort_merge_policy::inplace>(first, last, comp);
 }
 

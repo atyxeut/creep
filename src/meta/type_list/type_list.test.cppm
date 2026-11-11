@@ -8,7 +8,8 @@ import std;
 
 using namespace creep::meta;
 
-consteval void check_is_any_of() {
+consteval
+void check_is_any_of() {
   static_assert(is_any_of_v<int> == false);
   static_assert(is_any_of_v<int, int> == true);
   static_assert(is_any_of_v<int, double> == false);
@@ -16,7 +17,8 @@ consteval void check_is_any_of() {
   static_assert(is_any_of_v<int, double, long double, char, const char, int, std::string> == true);
 }
 
-consteval void check_is_none_of() {
+consteval
+void check_is_none_of() {
   static_assert(is_none_of_v<int> == true);
   static_assert(is_none_of_v<int, int> == false);
   static_assert(is_none_of_v<int, double> == true);
@@ -24,7 +26,8 @@ consteval void check_is_none_of() {
   static_assert(is_none_of_v<int, double, long double, char, const char, int, std::string> == false);
 }
 
-consteval void check_all_the_same() {
+consteval
+void check_all_the_same() {
   static_assert(all_the_same_v<> == true);
   static_assert(all_the_same_v<int, int> == true);
   static_assert(all_the_same_v<int, double> == false);
@@ -52,7 +55,8 @@ using indexed_type_list_3 = indexed_type_list<std::make_index_sequence<length_v<
 using indexed_type_list_4 = indexed_type_list<std::make_index_sequence<length_v<type_list_4>>, type_list_4>;
 using indexed_type_list_5 = indexed_type_list<std::make_index_sequence<length_v<type_list_5>>, type_list_5>;
 
-consteval void check_lookup() {
+consteval
+void check_lookup() {
   static_assert(std::same_as<lookup_t<indexed_type_list_0, 2>, indexed_type<2, std::vector<int>>>);
   static_assert(std::same_as<lookup_t<indexed_type_list_1, 0>, indexed_type<0, std::string>>);
   static_assert(std::same_as<lookup_t<indexed_type_list_2, 1>, indexed_type<1, char>>);
@@ -61,7 +65,8 @@ consteval void check_lookup() {
   static_assert(std::same_as<lookup_t<indexed_type_list_5, tail_index>, indexed_type<tail_index, const void>>);
 }
 
-consteval void check_cons() {
+consteval
+void check_cons() {
   // cons for meta::type_list
   static_assert(std::same_as<cons_t<type_list_0, int>, type_list<int, double, float, std::vector<int>, long long>>);
   static_assert(
@@ -84,7 +89,8 @@ consteval void check_cons() {
   static_assert(std::same_as<cons_t<indexed_type_list_2, indexed_type<9, void>>, indexed_type_list_2_after_cons>);
 }
 
-consteval void check_snoc() {
+consteval
+void check_snoc() {
   // snoc for meta::type_list
   static_assert(std::same_as<snoc_t<type_list_0, int>, type_list<double, float, std::vector<int>, long long, int>>);
   static_assert(
@@ -107,7 +113,8 @@ consteval void check_snoc() {
   static_assert(std::same_as<snoc_t<indexed_type_list_2, indexed_type<9, void>>, indexed_type_list_2_after_snoc>);
 }
 
-consteval void check_replicate() {
+consteval
+void check_replicate() {
   static_assert(std::same_as<replicate_t<void, 0>, empty_type_list>);
 
   using int_replicated_5_times_type_list = type_list<int, int, int, int, int>;
@@ -123,7 +130,8 @@ struct huge_concat_test_helper<type_list<Ts...>> : concat<Ts...> {};
 template <list_of_types T>
 using huge_concat_test_helper_t = huge_concat_test_helper<T>::type;
 
-consteval void check_concat() {
+consteval
+void check_concat() {
   static_assert(std::same_as<concat_t<empty_type_list>, empty_type_list>);
   static_assert(std::same_as<concat_t<type_list_1>, type_list_1>);
 
@@ -180,7 +188,8 @@ consteval void check_concat() {
   static_assert(concat_with_duplication_fails.operator ()<list_1, list_3>());
 }
 
-consteval void check_reverse() {
+consteval
+void check_reverse() {
   using reversed_empty_type_list = empty_type_list;
   static_assert(std::same_as<reverse_t<empty_type_list>, reversed_empty_type_list>);
 
@@ -191,7 +200,8 @@ consteval void check_reverse() {
   static_assert(std::same_as<reverse_t<type_list_1>, reversed_type_list_of_1>);
 }
 
-consteval void check_init() {
+consteval
+void check_init() {
   // force a template substitution to make `requires` work
   auto test_empty_list = []<typename T> consteval {
     return requires { typename init_t<T>; };
@@ -214,7 +224,8 @@ consteval void check_init() {
   static_assert(std::same_as<init_t<indexed_type_list_1>, init_indexed_type_list_of_1> == true);
 }
 
-consteval void check_take() {
+consteval
+void check_take() {
   using take_0_type_list_of_empty = empty_type_list;
   static_assert(std::same_as<take_t<empty_type_list, 0>, take_0_type_list_of_empty>);
 
@@ -231,7 +242,8 @@ consteval void check_take() {
   static_assert(std::same_as<take_t<type_list_4, 6>, take_6_type_list_of_4>);
 }
 
-consteval void check_take_end() {
+consteval
+void check_take_end() {
   using take_0_type_list_of_empty_from_end = empty_type_list;
   static_assert(std::same_as<take_end_t<empty_type_list, 0>, take_0_type_list_of_empty_from_end>);
 
@@ -248,7 +260,8 @@ consteval void check_take_end() {
   static_assert(std::same_as<take_end_t<type_list_4, 6>, take_6_type_list_of_4_from_end>);
 }
 
-consteval void check_drop() {
+consteval
+void check_drop() {
   using dropped_0_type_list_of_empty = empty_type_list;
   static_assert(std::same_as<drop_t<empty_type_list, 0>, dropped_0_type_list_of_empty>);
 
@@ -265,7 +278,8 @@ consteval void check_drop() {
   static_assert(std::same_as<drop_t<type_list_1, 3>, dropped_3_type_list_of_1>);
 }
 
-consteval void check_drop_end() {
+consteval
+void check_drop_end() {
   using dropped_0_type_list_of_empty_from_end = empty_type_list;
   static_assert(std::same_as<drop_end_t<empty_type_list, 0>, dropped_0_type_list_of_empty_from_end>);
 
@@ -285,7 +299,8 @@ consteval void check_drop_end() {
   static_assert(std::same_as<drop_end_t<type_list_2, 2>, dropped_2_type_list_of_2_from_end>);
 }
 
-consteval void check_take_while() {
+consteval
+void check_take_while() {
   using take_while_type_list_of_empty_list = empty_type_list;
   static_assert(std::same_as<take_while_t<empty_type_list, std::is_integral>, take_while_type_list_of_empty_list>);
 
@@ -308,7 +323,8 @@ consteval void check_take_while() {
   static_assert(std::same_as<take_while_t<type_list_4, std::is_floating_point>, take_while_type_list_of_4_2>);
 }
 
-consteval void check_take_while_end() {
+consteval
+void check_take_while_end() {
   using take_while_type_list_of_empty_list_from_end = empty_type_list;
   static_assert(
     std::same_as<take_while_end_t<empty_type_list, std::is_integral>, take_while_type_list_of_empty_list_from_end>
@@ -337,7 +353,8 @@ consteval void check_take_while_end() {
   );
 }
 
-consteval void check_drop_while() {
+consteval
+void check_drop_while() {
   using drop_while_type_list_of_0 = type_list<double, float, std::vector<int>, long long>;
   static_assert(std::same_as<drop_while_t<type_list_0, std::is_integral>, drop_while_type_list_of_0>);
 
@@ -357,7 +374,8 @@ consteval void check_drop_while() {
   static_assert(std::same_as<drop_while_t<type_list_4, std::is_floating_point>, drop_while_type_list_of_4>);
 }
 
-consteval void check_drop_while_end() {
+consteval
+void check_drop_while_end() {
   using drop_while_type_list_of_0_from_end = type_list<double, float, std::vector<int>>;
   static_assert(std::same_as<drop_while_end_t<type_list_0, std::is_integral>, drop_while_type_list_of_0_from_end>);
 
@@ -379,7 +397,8 @@ consteval void check_drop_while_end() {
   );
 }
 
-consteval void check_filter() {
+consteval
+void check_filter() {
   using filtered_type_list_of_4_1 =
     type_list<int, char, volatile unsigned long long, char, unsigned char, signed char, short>;
   static_assert(std::same_as<filter_t<type_list_4, std::is_integral>, filtered_type_list_of_4_1>);
@@ -397,7 +416,8 @@ consteval void check_filter() {
   static_assert(std::same_as<filter_t<type_list_5, std::is_signed>, filtered_type_list_of_5>);
 }
 
-consteval void check_keep() {
+consteval
+void check_keep() {
   using keep_only_int_type_list_of_empty = empty_type_list;
   static_assert(std::same_as<keep_t<empty_type_list, int>, keep_only_int_type_list_of_empty>);
 
@@ -414,7 +434,8 @@ consteval void check_keep() {
   static_assert(std::same_as<keep_t<type_list_4, char>, keep_only_char_type_list_of_4>);
 }
 
-consteval void check_remove() {
+consteval
+void check_remove() {
   using remove_all_int_type_list_of_empty = empty_type_list;
   static_assert(std::same_as<remove_t<empty_type_list, int>, remove_all_int_type_list_of_empty>);
 
@@ -434,7 +455,8 @@ consteval void check_remove() {
   static_assert(std::same_as<remove_t<type_list_4, char>, remove_all_char_type_list_of_4>);
 }
 
-consteval void check_transform() {
+consteval
+void check_transform() {
   using type_list_0_after_add_const = type_list<const double, const float, const std::vector<int>, const long long>;
   static_assert(std::same_as<transform_t<type_list_0, std::add_const>, type_list_0_after_add_const>);
 
@@ -443,7 +465,8 @@ consteval void check_transform() {
   static_assert(std::same_as<transform_t<type_list_3, std::make_unsigned>, type_list_3_after_make_unsigned>);
 }
 
-consteval void check_any() {
+consteval
+void check_any() {
   static_assert(any_v<empty_type_list, std::is_integral> == false);
   static_assert(any_v<type_list_0, std::is_integral> == true);
   static_assert(any_v<type_list_1, std::is_floating_point> == false);
@@ -452,7 +475,8 @@ consteval void check_any() {
   static_assert(any_v<type_list_4, std::is_unsigned> == true);
 }
 
-consteval void check_none() {
+consteval
+void check_none() {
   static_assert(none_v<empty_type_list, std::is_integral> == true);
   static_assert(none_v<type_list_0, std::is_integral> == false);
   static_assert(none_v<type_list_1, std::is_floating_point> == true);
@@ -461,7 +485,8 @@ consteval void check_none() {
   static_assert(none_v<type_list_4, std::is_signed> == false);
 }
 
-consteval void check_all() {
+consteval
+void check_all() {
   static_assert(all_v<empty_type_list, std::is_integral> == false);
   static_assert(all_v<type_list_0, std::is_integral> == false);
   static_assert(all_v<type_list_1, std::is_floating_point> == false);
@@ -470,7 +495,8 @@ consteval void check_all() {
   static_assert(all_v<type_list_4, std::is_signed> == false);
 }
 
-consteval void check_has_any() {
+consteval
+void check_has_any() {
   static_assert(has_any_v<empty_type_list, double> == false);
   static_assert(has_any_v<type_list_0, double> == true);
   static_assert(has_any_v<type_list_1, int> == false);
@@ -478,7 +504,8 @@ consteval void check_has_any() {
   static_assert(has_any_v<indexed_type_list_1, int> == false);
 }
 
-consteval void check_has_none() {
+consteval
+void check_has_none() {
   static_assert(has_none_v<empty_type_list, double> == true);
   static_assert(has_none_v<type_list_0, double> == false);
   static_assert(has_none_v<type_list_1, int> == true);
@@ -486,7 +513,8 @@ consteval void check_has_none() {
   static_assert(has_none_v<indexed_type_list_1, int> == true);
 }
 
-consteval void check_is_predicate() {
+consteval
+void check_is_predicate() {
   // test for templates that accept 1 template parameter
   static_assert(is_predicate_v<std::is_integral> == true);
 

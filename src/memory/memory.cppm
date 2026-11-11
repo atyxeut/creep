@@ -13,9 +13,8 @@ template <
   std::input_iterator I,
   std::strict_weak_order<std::iter_reference_t<I>, std::iter_reference_t<I>> Comparator = std::ranges::less
 >
-[[nodiscard]] constexpr bool iter_compare(I p, I q, Comparator comp = std::ranges::less {}) noexcept(
-  noexcept(comp(*p, *q))
-) {
+[[nodiscard]] constexpr
+bool iter_compare(I p, I q, Comparator comp = std::ranges::less {}) noexcept(noexcept(comp(*p, *q))) {
   if (p == q)
     return false;
   return comp(*p, *q);
@@ -73,7 +72,8 @@ concept uninitialized_construct_function_invocable =
   && std::constructible_from<typename std::allocator_traits<Allocator>::value_type, std::iter_reference_t<InputIt>>;
 
 template <uninitialized_construction_tag Tag, typename Allocator, typename InputIt, typename ForwardIt>
-constexpr auto uninitialized_construct_n(Allocator& alloc, InputIt first, std::size_t count, ForwardIt dest) {
+constexpr
+auto uninitialized_construct_n(Allocator& alloc, InputIt first, std::size_t count, ForwardIt dest) {
   if (count == 0) {
     if constexpr (Tag == uninitialized_construction_tag::move)
       return std::pair {first, dest};
@@ -123,13 +123,15 @@ export namespace creep {
 
 template <typename Allocator, std::input_iterator InputIt, std::forward_iterator ForwardIt>
   requires uninitialized_construct_function_invocable<Allocator, InputIt, ForwardIt>
-constexpr auto uninitialized_move_n(Allocator& alloc, InputIt first, std::size_t count, ForwardIt dest) {
+constexpr
+auto uninitialized_move_n(Allocator& alloc, InputIt first, std::size_t count, ForwardIt dest) {
   return uninitialized_construct_n<uninitialized_construction_tag::move>(alloc, first, count, dest);
 }
 
 template <typename Allocator, std::input_iterator InputIt, std::forward_iterator ForwardIt>
   requires uninitialized_construct_function_invocable<Allocator, InputIt, ForwardIt>
-constexpr auto uninitialized_copy_n(Allocator& alloc, InputIt first, std::size_t count, ForwardIt dest) {
+constexpr
+auto uninitialized_copy_n(Allocator& alloc, InputIt first, std::size_t count, ForwardIt dest) {
   return uninitialized_construct_n<uninitialized_construction_tag::copy>(alloc, first, count, dest);
 }
 
@@ -194,10 +196,17 @@ private:
     size_type size;
     pointer data;
 
-    [[nodiscard]] constexpr reference operator [](size_type i) noexcept { return data[i]; }
-    [[nodiscard]] constexpr const_reference operator [](size_type i) const noexcept { return data[i]; }
+    [[nodiscard]] constexpr
+    reference operator [](size_type i) noexcept {
+      return data[i];
+    }
+    [[nodiscard]] constexpr
+    const_reference operator [](size_type i) const noexcept {
+      return data[i];
+    }
 
-    constexpr void destroy(size_type count) noexcept pre(count <= size) {
+    constexpr
+    void destroy(size_type count) noexcept pre(count <= size) {
       if constexpr (std::is_trivially_destructible_v<value_type>) {
         size -= count;
       } else {
@@ -208,14 +217,16 @@ private:
       }
     }
 
-    constexpr void deallocate() noexcept {
+    constexpr
+    void deallocate() noexcept {
       if (data) {
         allocator_traits::deallocate(allocator, data, this->capacity);
         data = nullptr;
       }
     }
 
-    constexpr explicit buffer_type_(size_type cap, const allocator_type& alloc)
+    constexpr
+    explicit buffer_type_(size_type cap, const allocator_type& alloc)
       : capacity_base_(cap), allocator(alloc), size {},
         data {this->capacity > 0 ? allocator_traits::allocate(allocator, this->capacity) : nullptr} {}
 
@@ -223,7 +234,8 @@ private:
       : capacity_base_(std::move(other)), allocator(std::move(other.allocator)), size {std::exchange(other.size, 0)},
         data {std::exchange(other.data, nullptr)} {}
 
-    constexpr buffer_type_& operator =(buffer_type_&& other) noexcept {
+    constexpr
+    buffer_type_& operator =(buffer_type_&& other) noexcept {
       if (this == std::addressof(other))
         return *this;
 
@@ -250,17 +262,33 @@ protected:
   buffer_type_ buffer_;
 
 public:
-  [[nodiscard]] constexpr size_type max_size() const noexcept { return allocator_traits::max_size(buffer_.allocator); }
-  [[nodiscard]] constexpr size_type capacity() const noexcept { return buffer_.capacity; }
+  [[nodiscard]] constexpr
+  size_type max_size() const noexcept {
+    return allocator_traits::max_size(buffer_.allocator);
+  }
+  [[nodiscard]] constexpr
+  size_type capacity() const noexcept {
+    return buffer_.capacity;
+  }
 
-  [[nodiscard]] constexpr allocator_type get_allocator() const noexcept { return buffer_.allocator; }
+  [[nodiscard]] constexpr
+  allocator_type get_allocator() const noexcept {
+    return buffer_.allocator;
+  }
 
-  [[nodiscard]] constexpr pointer data() const noexcept { return buffer_.data; }
-  [[nodiscard]] constexpr pointer offset(size_type i) const noexcept {
+  [[nodiscard]] constexpr
+  pointer data() const noexcept {
+    return buffer_.data;
+  }
+  [[nodiscard]] constexpr
+  pointer offset(size_type i) const noexcept {
     return buffer_.data + static_cast<difference_type>(i);
   }
 
-  constexpr void clear() noexcept { buffer_.destroy(buffer_.size); }
+  constexpr
+  void clear() noexcept {
+    buffer_.destroy(buffer_.size);
+  }
 
   // clang-format off
   
@@ -295,15 +323,19 @@ public:
   // clang-format on
 
 protected:
-  constexpr explicit heap_buffer_base(const allocator_type& alloc) : buffer_(0, alloc) {}
+  constexpr
+  explicit heap_buffer_base(const allocator_type& alloc)
+    : buffer_(0, alloc) {}
 
-  constexpr explicit heap_buffer_base(size_type cap, const allocator_type& alloc)
+  constexpr
+  explicit heap_buffer_base(size_type cap, const allocator_type& alloc)
     requires (!capacity_fixed_)
     : buffer_(cap, alloc) {}
 
   constexpr heap_buffer_base(heap_buffer_base&& other) noexcept = default;
 
-  constexpr heap_buffer_base& operator =(heap_buffer_base&& other) noexcept(allocator_fixed_ || allocator_pocma_) {
+  constexpr
+  heap_buffer_base& operator =(heap_buffer_base&& other) noexcept(allocator_fixed_ || allocator_pocma_) {
     if (this == std::addressof(other))
       return *this;
 
@@ -339,7 +371,8 @@ protected:
     buffer_.size = other.buffer_.size;
   }
 
-  constexpr heap_buffer_base& operator =(const heap_buffer_base& other) {
+  constexpr
+  heap_buffer_base& operator =(const heap_buffer_base& other) {
     if (this == std::addressof(other))
       return *this;
 

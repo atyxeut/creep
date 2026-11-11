@@ -36,7 +36,8 @@ struct timed_invocation_result<Rep, Period, void> {
 };
 
 template <typename Fn, typename... Args>
-[[nodiscard]] auto timed_invocation(Fn&& func, Args&&... args) {
+[[nodiscard]]
+auto timed_invocation(Fn&& func, Args&&... args) {
   using time_point_type = std::chrono::steady_clock::time_point;
   using duration_type = time_point_type::duration;
   using result_type = std::invoke_result_t<Fn, Args...>;
@@ -94,11 +95,17 @@ public:
     laps_ = std::vector<time_point_type_>(1, begin_time_point_);
   }
 
-  [[nodiscard]] auto count() const { return std::chrono::steady_clock::now() - begin_time_point_; }
+  [[nodiscard]]
+  auto count() const {
+    return std::chrono::steady_clock::now() - begin_time_point_;
+  }
 
   void lap() { laps_.emplace_back(std::chrono::steady_clock::now()); }
 
-  [[nodiscard]] constexpr auto lap_count() const { return laps_.size() - 1; }
+  [[nodiscard]] constexpr
+  auto lap_count() const {
+    return laps_.size() - 1;
+  }
 
   void print_lap(std::size_t idx, iofmt format = iofmt::none) const {
     if (idx == 0 || idx >= laps_.size())

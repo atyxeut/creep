@@ -14,7 +14,8 @@ using namespace creep;
 constexpr usize element_count = 1e6;
 constexpr usize max_jump_count = ilog2(element_count);
 
-[[nodiscard]] std::vector<int> make_array() {
+[[nodiscard]]
+std::vector<int> make_array() {
   std::vector<int> ret(element_count);
   for (auto rand_elem = random::uniform_distribution(0, std::numeric_limits<int>::max()); int& elem : ret)
     elem = rand_elem(random::mt19937_engine);
@@ -23,7 +24,8 @@ constexpr usize max_jump_count = ilog2(element_count);
 
 constexpr usize query_count = 1e6;
 
-[[nodiscard]] std::vector<std::array<usize, 2>> make_query() {
+[[nodiscard]]
+std::vector<std::array<usize, 2>> make_query() {
   std::vector<std::array<usize, 2>> ret(query_count);
   for (auto rand_l = random::uniform_distribution(0uz, element_count - 1); auto& [l, r] : ret) {
     l = rand_l(random::mt19937_engine);
@@ -47,12 +49,14 @@ public:
         st_[j][i] = f_(st_[j - 1][i], st_[j - 1][i + (1 << j - 1)]);
   }
 
-  [[nodiscard]] int query_idempotent(usize l, usize r) const noexcept {
+  [[nodiscard]]
+  int query_idempotent(usize l, usize r) const noexcept {
     const int j = ilog2(r - l + 1);
     return f_(st_[j][l], st_[j][r + 1 - (1 << j)]);
   }
 
-  [[nodiscard]] int query_non_idempotent(usize l, usize r) const noexcept {
+  [[nodiscard]]
+  int query_non_idempotent(usize l, usize r) const noexcept {
     int ans = 1;
     const usize d = r - l + 1;
     for (usize j = ilog2(d); l <= r; --j) {

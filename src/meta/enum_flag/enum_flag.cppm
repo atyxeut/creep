@@ -21,32 +21,38 @@ concept enum_flag = is_enum_flag_v<T>;
 export namespace creep::inline operator_overload::inline enum_flag_operator {
 
 template <::creep::meta::enum_flag T>
-[[nodiscard]] constexpr auto operator &(T a, T b) noexcept {
+[[nodiscard]] constexpr
+auto operator &(T a, T b) noexcept {
   return static_cast<T>(std::to_underlying(a) & std::to_underlying(b));
 };
 
 template <::creep::meta::enum_flag T>
-constexpr auto& operator &=(T& a, T b) noexcept {
+constexpr
+auto& operator &=(T& a, T b) noexcept {
   return a = a & b;
 };
 
 template <::creep::meta::enum_flag T>
-[[nodiscard]] constexpr auto operator ^(T a, T b) noexcept {
+[[nodiscard]] constexpr
+auto operator ^(T a, T b) noexcept {
   return static_cast<T>(std::to_underlying(a) ^ std::to_underlying(b));
 };
 
 template <::creep::meta::enum_flag T>
-constexpr auto& operator ^=(T& a, T b) noexcept {
+constexpr
+auto& operator ^=(T& a, T b) noexcept {
   return a = a ^ b;
 };
 
 template <::creep::meta::enum_flag T>
-[[nodiscard]] constexpr auto operator |(T a, T b) noexcept {
+[[nodiscard]] constexpr
+auto operator |(T a, T b) noexcept {
   return static_cast<T>(std::to_underlying(a) | std::to_underlying(b));
 };
 
 template <::creep::meta::enum_flag T>
-constexpr auto& operator |=(T& a, T b) noexcept {
+constexpr
+auto& operator |=(T& a, T b) noexcept {
   return a = a | b;
 };
 

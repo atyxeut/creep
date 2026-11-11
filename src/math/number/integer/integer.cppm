@@ -93,7 +93,8 @@ namespace creep {
 //   63 ...       7 ...  0
 
 template <meta::state_integral T>
-[[nodiscard]] constexpr bool is_valid_bit_index_for_state(int index) noexcept {
+[[nodiscard]] constexpr
+bool is_valid_bit_index_for_state(int index) noexcept {
   if (index < 0)
     return false;
   if constexpr (meta::is_any_of_v<T, i32, u32>)
@@ -107,37 +108,44 @@ template <meta::state_integral T>
 export namespace creep {
 
 template <meta::state_integral T>
-[[nodiscard]] constexpr bool is_bit_set(T state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
+[[nodiscard]] constexpr
+bool is_bit_set(T state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
   return static_cast<bool>(state & std::make_unsigned_t<T>(1) << index);
 }
 
 template <meta::state_integral T>
-constexpr void set_bit(T& state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
+constexpr
+void set_bit(T& state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
   state |= std::make_unsigned_t<T>(1) << index;
 }
 
 template <meta::state_integral T>
-[[nodiscard]] constexpr T after_set_bit(T state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
+[[nodiscard]] constexpr
+T after_set_bit(T state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
   return state | std::make_unsigned_t<T>(1) << index;
 }
 
 template <meta::state_integral T>
-constexpr void reset_bit(T& state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
+constexpr
+void reset_bit(T& state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
   state &= ~(std::make_unsigned_t<T>(1) << index);
 }
 
 template <meta::state_integral T>
-[[nodiscard]] constexpr T after_reset_bit(T state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
+[[nodiscard]] constexpr
+T after_reset_bit(T state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
   return state & ~(std::make_unsigned_t<T>(1) << index);
 }
 
 template <meta::state_integral T>
-constexpr void flip_bit(T& state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
+constexpr
+void flip_bit(T& state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
   state ^= std::make_unsigned_t<T>(1) << index;
 }
 
 template <meta::state_integral T>
-[[nodiscard]] constexpr T after_flip_bit(T state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
+[[nodiscard]] constexpr
+T after_flip_bit(T state, int index) noexcept pre(is_valid_bit_index_for_state<T>(index)) {
   return state ^ std::make_unsigned_t<T>(1) << index;
 }
 
@@ -380,14 +388,16 @@ export namespace creep {
 // no compilation error: unsigned int _ = abs(1u);
 // no overflow: unsigned int _ = abs(-2147483647 - 1);
 template <meta::nonbool_potential_standard_integral T>
-[[nodiscard]] constexpr auto abs(T x) noexcept {
+[[nodiscard]] constexpr
+auto abs(T x) noexcept {
   // for negative x, ~x + 1 is |x| if the bit representation is 2's complement
   return x >= 0 ? static_cast<meta::make_unsigned_t<T>>(x) : ~static_cast<meta::make_unsigned_t<T>>(x) + 1;
 }
 
 // an extended version of std::countl_zero
 template <meta::nonbool_potential_standard_integral T>
-[[nodiscard]] constexpr int countl_zero(T x) noexcept {
+[[nodiscard]] constexpr
+int countl_zero(T x) noexcept {
   if (x < 0)
     return 0;
 
@@ -399,7 +409,8 @@ template <meta::nonbool_potential_standard_integral T>
 
 // an extended version of std::countr_zero
 template <meta::nonbool_potential_standard_integral T>
-[[nodiscard]] constexpr int countr_zero(T x) noexcept {
+[[nodiscard]] constexpr
+int countr_zero(T x) noexcept {
   // -x has the same lowbit as x in 2's complement
   if constexpr (meta::nonbool_standard_integral<T>)
     return std::countr_zero<std::make_unsigned_t<T>>(x);
@@ -409,18 +420,21 @@ template <meta::nonbool_potential_standard_integral T>
 
 // an extended version of std::bit_width
 template <meta::nonbool_potential_standard_integral T>
-[[nodiscard]] constexpr int bit_width(T x) noexcept pre(x >= 0) {
+[[nodiscard]] constexpr
+int bit_width(T x) noexcept pre(x >= 0) {
   return std::numeric_limits<meta::make_unsigned_t<T>>::digits - countl_zero(x);
 }
 
 // calculate floor(log_2 x), ilog2(0) has defined behavior and returns -1
 template <meta::nonbool_potential_standard_integral T>
-[[nodiscard]] constexpr int ilog2(T x) noexcept pre(x >= 0) {
+[[nodiscard]] constexpr
+int ilog2(T x) noexcept pre(x >= 0) {
   return bit_width(x) - 1;
 }
 
 template <std::unsigned_integral T, std::ranges::random_access_range R>
-[[nodiscard]] std::string to_string(T n, R&& digits) pre(std::ranges::size(digits) >= 2) {
+[[nodiscard]]
+std::string to_string(T n, R&& digits) pre(std::ranges::size(digits) >= 2) {
   if (n == 0)
     return std::string(1, digits[0]);
 
@@ -495,7 +509,8 @@ void print(R&& number, iofmt format = iofmt::none) {
 
 // s must be an unsigned integer, otherwise the behavior is undefined
 template <std::integral Limb = int>
-[[nodiscard]] constexpr std::vector<Limb> parse(std::string_view s) {
+[[nodiscard]] constexpr
+std::vector<Limb> parse(std::string_view s) {
   const auto n = s.size();
   if (n == 1 && s[0] == '0')
     return {};
@@ -507,20 +522,23 @@ template <std::integral Limb = int>
 }
 
 template <std::integral Limb = int>
-[[nodiscard]] std::vector<Limb> input() {
+[[nodiscard]]
+std::vector<Limb> input() {
   std::string s;
   std::cin >> s;
   return parse<Limb>(s);
 }
 
 template <std::integral Limb>
-[[nodiscard]] constexpr bool is_zero(const std::vector<Limb>& number) noexcept {
+[[nodiscard]] constexpr
+bool is_zero(const std::vector<Limb>& number) noexcept {
   return number.empty();
 }
 
 // -1: a < b, 0: a = b, 1: a > b
 template <std::integral Limb>
-[[nodiscard]] constexpr int compare(std::span<const Limb> a, std::span<const Limb> b) noexcept {
+[[nodiscard]] constexpr
+int compare(std::span<const Limb> a, std::span<const Limb> b) noexcept {
   const auto al = a.size();
   const auto bl = b.size();
   if (al != bl)
@@ -540,7 +558,8 @@ namespace creep::big_integer::naive {
 enum class carry_policy { none, assume_unsigned };
 
 template <carry_policy Policy, typename Limb, Limb Radix, typename Range>
-constexpr Limb carry_impl(Range&& number) noexcept {
+constexpr
+Limb carry_impl(Range&& number) noexcept {
   Limb carry = 0;
   for (auto& limb : number) {
     limb += carry;
@@ -559,23 +578,27 @@ constexpr Limb carry_impl(Range&& number) noexcept {
 export namespace creep::big_integer::naive {
 
 template <std::integral Limb, Limb Radix = 10, std::ranges::forward_range R>
-constexpr auto carry_unsigned(R&& number) noexcept {
+constexpr
+auto carry_unsigned(R&& number) noexcept {
   return carry_impl<carry_policy::assume_unsigned, Limb, Radix>(std::forward<R>(number));
 }
 
 template <std::integral Limb, Limb Radix = 10, std::ranges::forward_range R>
-constexpr auto carry(R&& number) noexcept {
+constexpr
+auto carry(R&& number) noexcept {
   return carry_impl<carry_policy::none, Limb, Radix>(std::forward<R>(number));
 }
 
 template <std::integral Limb>
-constexpr void remove_lz(std::vector<Limb>& number) noexcept {
+constexpr
+void remove_lz(std::vector<Limb>& number) noexcept {
   while (!number.empty() && number.back() == 0)
     number.pop_back();
 }
 
 template <std::integral Limb>
-[[nodiscard]] constexpr std::vector<Limb> add(const std::vector<Limb>& a, const std::vector<Limb>& b) {
+[[nodiscard]] constexpr
+std::vector<Limb> add(const std::vector<Limb>& a, const std::vector<Limb>& b) {
   if (is_zero(a))
     return b;
   if (is_zero(b))
@@ -605,7 +628,8 @@ void print(const sub_result<Limb>& result, iofmt format = iofmt::none) {
 }
 
 template <std::integral Limb>
-[[nodiscard]] constexpr sub_result<Limb> sub(const std::vector<Limb>& a, const std::vector<Limb>& b) {
+[[nodiscard]] constexpr
+sub_result<Limb> sub(const std::vector<Limb>& a, const std::vector<Limb>& b) {
   if (is_zero(a))
     return {true, b};
   if (is_zero(b))
@@ -623,7 +647,8 @@ template <std::integral Limb>
 }
 
 template <std::integral Limb>
-[[nodiscard]] constexpr std::vector<Limb> mul(const std::vector<Limb>& a, const std::vector<Limb>& b) {
+[[nodiscard]] constexpr
+std::vector<Limb> mul(const std::vector<Limb>& a, const std::vector<Limb>& b) {
   if (is_zero(a) || is_zero(b))
     return std::vector<Limb> {};
 
@@ -651,7 +676,8 @@ CREEP_WCONVERSION_PUSH()
 
 // used when b is way smaller than a
 template <std::integral Limb>
-[[nodiscard]] constexpr floor_div_result<Limb, long long> floor_div(const std::vector<Limb>& a, int b)
+[[nodiscard]] constexpr
+floor_div_result<Limb, long long> floor_div(const std::vector<Limb>& a, int b)
 // ICE in debug mode
 // pre(b != 0)
 {
@@ -668,9 +694,10 @@ template <std::integral Limb>
 }
 
 template <std::integral Limb>
-[[nodiscard]] constexpr floor_div_result<Limb, std::vector<Limb>> floor_div(
-  const std::vector<Limb>& a, const std::vector<Limb>& b
-) pre(!is_zero(b)) {
+[[nodiscard]] constexpr
+floor_div_result<Limb, std::vector<Limb>> floor_div(const std::vector<Limb>& a, const std::vector<Limb>& b) pre(
+  !is_zero(b)
+) {
   const int comp_result = compare<Limb>(a, b);
   if (comp_result < 0)
     return {{}, a};
@@ -716,7 +743,8 @@ CREEP_WCONVERSION_PUSH()
 
 // will calculate to precision + 1 decimal digits and round to the nearest
 template <std::integral Limb>
-[[nodiscard]] constexpr div_result<Limb> div(const std::vector<Limb>& a, int b, usize precision = 16) {
+[[nodiscard]] constexpr
+div_result<Limb> div(const std::vector<Limb>& a, int b, usize precision = 16) {
   auto [q_int, r] = floor_div(a, b);
   if (precision == 0) {
     if (r * 10 / b >= 5) {
@@ -750,7 +778,8 @@ template <std::integral Limb>
 CREEP_WCONVERSION_POP()
 
 template <std::integral Limb>
-[[nodiscard]] constexpr std::vector<Limb> pow(std::vector<Limb> a, int n) pre(n >= 0) {
+[[nodiscard]] constexpr
+std::vector<Limb> pow(std::vector<Limb> a, int n) pre(n >= 0) {
   if (n == 0)
     return {1};
 
@@ -768,7 +797,8 @@ template <std::integral Limb>
 
 CREEP_WCONVERSION_PUSH()
 
-[[nodiscard]] constexpr std::vector<int> floor_root(const std::vector<int>& a, int n) pre(n > 0) {
+[[nodiscard]] constexpr
+std::vector<int> floor_root(const std::vector<int>& a, int n) pre(n > 0) {
   if (n == 1 || is_zero(a))
     return a;
 
@@ -786,11 +816,13 @@ CREEP_WCONVERSION_PUSH()
 
 CREEP_WCONVERSION_POP()
 
-[[nodiscard]] constexpr auto floor_sqrt(const std::vector<int>& a) {
+[[nodiscard]] constexpr
+auto floor_sqrt(const std::vector<int>& a) {
   return floor_root(a, 2);
 }
 
-[[nodiscard]] constexpr auto floor_cbrt(const std::vector<int>& a) {
+[[nodiscard]] constexpr
+auto floor_cbrt(const std::vector<int>& a) {
   return floor_root(a, 3);
 }
 
@@ -798,7 +830,8 @@ CREEP_WCONVERSION_POP()
 
 namespace creep::big_integer {
 
-[[nodiscard]] constexpr auto preprocess_input_string(std::string_view s) {
+[[nodiscard]] constexpr
+auto preprocess_input_string(std::string_view s) {
   if (s.empty() || (s.size() == 1) & !is_ascii_digit(s[0]))
     throw std::invalid_argument("invalid integer: no digits");
 
@@ -813,12 +846,14 @@ namespace creep::big_integer {
 }
 
 template <typename Limb, Limb DigitsPerLimb>
-[[nodiscard]] constexpr auto get_digit_limb_count(std::string_view s_after_preprocess) {
+[[nodiscard]] constexpr
+auto get_digit_limb_count(std::string_view s_after_preprocess) {
   return (s_after_preprocess.size() + DigitsPerLimb - 1) / DigitsPerLimb;
 }
 
 template <typename Limb, Limb DigitsPerLimb>
-constexpr void set_digit_limbs(std::string_view s_after_preprocess, std::span<Limb> dest) {
+constexpr
+void set_digit_limbs(std::string_view s_after_preprocess, std::span<Limb> dest) {
   for (const char *l, *r = s_after_preprocess.data() + s_after_preprocess.size(); auto& limb : dest) {
     l = std::max(r - DigitsPerLimb, s_after_preprocess.data());
     if (const auto res = std::from_chars(l, r, limb); res.ptr != r)
@@ -864,14 +899,16 @@ public:
     set_digit_limbs<limb_type, digits_per_limb>(ns, mag_);
   }
 
-  friend auto& operator >>(std::istream& istr, digit_storage& n) {
+  friend
+  auto& operator >>(std::istream& istr, digit_storage& n) {
     std::string s;
     istr >> s;
     n = digit_storage(s);
     return istr;
   }
 
-  friend auto& operator <<(std::ostream& ostr, const digit_storage& n) {
+  friend
+  auto& operator <<(std::ostream& ostr, const digit_storage& n) {
     if (n.negative_)
       ostr << '-';
     print_digit_limbs<limb_type, digits_per_limb>(ostr, n.mag_);

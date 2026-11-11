@@ -9,7 +9,8 @@ export namespace creep {
 
 template <typename T, typename U, std::regular_invocable<T&, U&&> Comparator>
   requires std::same_as<std::remove_cvref_t<T>, std::remove_cvref_t<U>>
-[[nodiscard]] constexpr bool assign_if(T& dest, U&& src, Comparator comp) noexcept(
+[[nodiscard]] constexpr
+bool assign_if(T& dest, U&& src, Comparator comp) noexcept(
   noexcept(comp(dest, src)) && noexcept(dest = std::forward<U>(src))
 ) {
   if (comp(dest, src)) {
@@ -21,23 +22,22 @@ template <typename T, typename U, std::regular_invocable<T&, U&&> Comparator>
 
 template <typename T, typename U>
   requires std::same_as<std::remove_cvref_t<T>, std::remove_cvref_t<U>>
-[[nodiscard]] constexpr bool update_max(T& dest, U&& src) noexcept(
-  noexcept(assign_if(dest, std::forward<U>(src), std::ranges::less {}))
-) {
+[[nodiscard]] constexpr
+bool update_max(T& dest, U&& src) noexcept(noexcept(assign_if(dest, std::forward<U>(src), std::ranges::less {}))) {
   return assign_if(dest, std::forward<U>(src), std::ranges::less {});
 }
 
 template <typename T, typename U>
   requires std::same_as<std::remove_cvref_t<T>, std::remove_cvref_t<U>>
-[[nodiscard]] constexpr bool update_min(T& dest, U&& src) noexcept(
-  noexcept(assign_if(dest, std::forward<U>(src), std::ranges::greater {}))
-) {
+[[nodiscard]] constexpr
+bool update_min(T& dest, U&& src) noexcept(noexcept(assign_if(dest, std::forward<U>(src), std::ranges::greater {}))) {
   return assign_if(dest, std::forward<U>(src), std::ranges::greater {});
 }
 
 // same values map to the same rank
 template <std::ranges::forward_range Range>
-[[nodiscard]] constexpr std::vector<int> get_compressed_indices_ordered(const Range& src) {
+[[nodiscard]] constexpr
+std::vector<int> get_compressed_indices_ordered(const Range& src) {
   std::vector<std::ranges::range_value_t<Range>> tmp(std::ranges::begin(src), std::ranges::end(src));
   std::sort(tmp.begin(), tmp.end());
   const auto tmp_end = std::unique(tmp.begin(), tmp.end());
@@ -53,7 +53,8 @@ template <std::ranges::forward_range Range>
 
 // every value maps to a unique rank, the value that has smaller index in the original range maps to a lower rank
 template <std::ranges::input_range Range>
-[[nodiscard]] constexpr std::vector<int> get_compressed_indices_ordered_unique(Range&& src) {
+[[nodiscard]] constexpr
+std::vector<int> get_compressed_indices_ordered_unique(Range&& src) {
   const auto n = std::ranges::size(src);
   std::vector<std::pair<std::ranges::range_value_t<Range>, std::size_t>> tmp;
   tmp.reserve(n);

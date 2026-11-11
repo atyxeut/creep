@@ -11,7 +11,8 @@ export namespace creep {
 // the behavior is undefined if the given prime list is not valid
 template <std::integral Result, std::integral T, std::ranges::random_access_range R>
   requires std::integral<std::ranges::range_value_t<R>>
-[[nodiscard]] constexpr std::vector<Result> smooth_number_list(T count, R&& primes) pre(count > 0) {
+[[nodiscard]] constexpr
+std::vector<Result> smooth_number_list(T count, R&& primes) pre(count > 0) {
   std::vector<Result> ans;
   ans.reserve(count);
   ans.emplace_back(1);

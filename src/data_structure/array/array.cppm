@@ -50,7 +50,8 @@ inline constexpr bool is_std_array_v = is_std_array<T>::value;
 // int val = -1;
 // creep::fill_array(arr4d, val);
 template <typename Elem, std::size_t Dim, typename T>
-constexpr void fill_array(std::array<Elem, Dim>& arr, const T& val) {
+constexpr
+void fill_array(std::array<Elem, Dim>& arr, const T& val) {
   if constexpr (is_no_cv_std_array_v<Elem>)
     for (auto& inner_arr : arr)
       fill_array(inner_arr, val);
@@ -60,7 +61,8 @@ constexpr void fill_array(std::array<Elem, Dim>& arr, const T& val) {
 
 // same as above, for C-style arrays
 template <typename Elem, std::size_t N, typename T>
-constexpr void fill_array(Elem (&arr)[N], const T& val) {
+constexpr
+void fill_array(Elem (&arr)[N], const T& val) {
   if constexpr (std::is_array_v<Elem>)
     for (auto& inner_arr : arr)
       fill_array(inner_arr, val);
@@ -71,7 +73,8 @@ constexpr void fill_array(Elem (&arr)[N], const T& val) {
 // auto arr4d = creep::make_array<int, 5, 8, 3, 2>(val);
 // combines `creep::array<int, 5, 8, 3, 2> arr4d` and `creep::fill_array(arr4d, val)`
 template <typename Elem, std::size_t... Dims, typename T>
-[[nodiscard]] constexpr array<Elem, Dims...> make_array(const T& val) {
+[[nodiscard]] constexpr
+array<Elem, Dims...> make_array(const T& val) {
   array<Elem, Dims...> arr;
   fill_array(arr, static_cast<Elem>(val));
   return arr;
@@ -122,7 +125,8 @@ using vector = vector_impl<T, DimCnt, meta::type_list<FirstDimAllocator, Allocat
 namespace creep {
 
 template <typename Elem, typename AllocatorList, typename Dim, typename... Ts>
-[[nodiscard]] constexpr auto make_vector_impl(Dim first_dim_size, Ts&&... args) {
+[[nodiscard]] constexpr
+auto make_vector_impl(Dim first_dim_size, Ts&&... args) {
   using adjusted_allocator_list =
     meta::snoc_if_t<AllocatorList, std_allocator_tag, (meta::length_v<AllocatorList> < sizeof...(Ts))>;
   if constexpr (sizeof...(Ts) == 1) {
@@ -158,7 +162,8 @@ template <
   typename... Ts
 >
   requires (sizeof(Dim) <= sizeof(std::size_t) && sizeof...(Ts) > 0 && sizeof...(Allocators) < sizeof...(Ts))
-[[nodiscard]] constexpr auto make_vector(Dim first_dim_size, Ts&&... args) {
+[[nodiscard]] constexpr
+auto make_vector(Dim first_dim_size, Ts&&... args) {
   return make_vector_impl<Elem, meta::type_list<FirstDimAllocator, Allocators...>>(
     first_dim_size, std::forward<Ts>(args)...
   );

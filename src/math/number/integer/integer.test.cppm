@@ -10,7 +10,8 @@ import std;
 using namespace creep;
 using namespace creep::meta;
 
-consteval void check_is_boolean() {
+consteval
+void check_is_boolean() {
   static_assert(is_boolean_v<int> == false);
   static_assert(is_boolean_v<bool> == true);
   static_assert(is_boolean_v<const bool> == true);
@@ -24,7 +25,8 @@ consteval void check_is_boolean() {
   static_assert(boolean<const volatile bool> == true);
 }
 
-consteval void check_make_signed() {
+consteval
+void check_make_signed() {
   static_assert(std::same_as<make_signed_t<int>, int> == true);
   static_assert(std::same_as<make_signed_t<const int>, const int> == true);
   static_assert(std::same_as<make_signed_t<const volatile unsigned int>, const volatile int> == true);
@@ -34,7 +36,8 @@ consteval void check_make_signed() {
   static_assert(std::same_as<make_signed_t<integer::u<1024>>, integer::i<1024>> == true);
 }
 
-consteval void check_make_unsigned() {
+consteval
+void check_make_unsigned() {
   static_assert(std::same_as<make_unsigned_t<int>, unsigned int> == true);
   static_assert(std::same_as<make_unsigned_t<const int>, const unsigned int> == true);
   static_assert(std::same_as<make_unsigned_t<const volatile unsigned int>, const volatile unsigned int> == true);
