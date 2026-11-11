@@ -8,7 +8,7 @@ export import :math.counting;
 export import :math.equation;
 export import :math.game_theory;
 export import :math.geometry;
-export import :math.matrix;
+export import :math.linalg;
 export import :math.number;
 export import :math.optimization;
 export import :math.polynomial;
