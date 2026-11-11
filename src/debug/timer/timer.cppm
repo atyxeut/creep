@@ -102,7 +102,9 @@ public:
 
   void print_lap(std::size_t idx, iofmt format = iofmt::none) const {
     if (idx == 0 || idx >= laps_.size())
-      throw std::invalid_argument(std::format("invalid index range, index starts at 1, and now there are {} laps", lap_count()));
+      throw std::invalid_argument(
+        std::format("invalid index range, index starts at 1, and now there are {} laps", lap_count())
+      );
 
     print_duration_as<double>(laps_[idx] - laps_[idx - 1], format);
   }
@@ -117,7 +119,9 @@ public:
 
   void print_laps(std::size_t from_idx, std::size_t to_idx, iofmt format = iofmt::none) const {
     if (from_idx == 0 || from_idx > to_idx || to_idx >= laps_.size())
-      throw std::invalid_argument(std::format("invalid index range, index starts at 1, and now there are {} laps", lap_count()));
+      throw std::invalid_argument(
+        std::format("invalid index range, index starts at 1, and now there are {} laps", lap_count())
+      );
 
     for (; from_idx <= to_idx; ++from_idx) {
       std::println(std::cerr, "lap {}: ", from_idx);

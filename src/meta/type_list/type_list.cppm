@@ -229,7 +229,8 @@ using lookup_t = lookup<IndexedTypeList, I>::type;
 // name after Haskell Data.List : operator (1 : [1, 2] --> [1, 1, 2])
 // get a type list that has one element added to the beginning comparing to the given list
 // O(1) time complexity for type_list
-// O(n) time complexity for indexed_type_list (because of the validation for indices), where n is the length of the given list
+// O(n) time complexity for indexed_type_list (because of the validation for indices), where n is the length of the
+// given list
 template <typename, typename>
 struct cons;
 
@@ -255,7 +256,8 @@ using cons_if_t = cons_if<AnyTypeList, T, B>::type;
 
 // get a type list that has one element added to the end comparing to the given list
 // O(1) time complexity for type_list
-// O(n) time complexity for indexed_type_list (because of the validation for indices), where n is the length of the given list
+// O(n) time complexity for indexed_type_list (because of the validation for indices), where n is the length of the
+// given list
 template <typename, typename>
 struct snoc;
 
@@ -365,7 +367,8 @@ struct is_predicate_tester;
 // clang-format off
 
 template <template <typename...> typename Fn, typename... Ts>
-struct is_predicate_tester<Fn, type_list<Ts...>> : std::bool_constant<requires { { Fn<Ts...>::value } -> no_cvref_same_as<bool>; }> {};
+struct is_predicate_tester<Fn, type_list<Ts...>>
+  : std::bool_constant<requires { { Fn<Ts...>::value } -> no_cvref_same_as<bool>; }> {};
 
 // clang-format on
 
@@ -373,7 +376,8 @@ template <template <typename...> typename, typename>
 struct is_predicate_impl;
 
 template <template <typename...> typename Fn, std::size_t... Is>
-struct is_predicate_impl<Fn, std::index_sequence<Is...>> : std::disjunction<is_predicate_tester<Fn, replicate_t<void, Is + 1>>...> {};
+struct is_predicate_impl<Fn, std::index_sequence<Is...>>
+  : std::disjunction<is_predicate_tester<Fn, replicate_t<void, Is + 1>>...> {};
 
 } // namespace creep::meta
 
@@ -408,11 +412,13 @@ private:
   // 2. merge
   // use the 2 lists specialization of `concat_impl` to merge
   //
-  // placing this helper inside `concat_impl` improves compilation time significantly, since in this way we can avoid the unnecessary copies
-  // of pack `Ts...` during the recursion
+  // placing this helper inside `concat_impl` improves compilation time significantly, since in this way we can avoid
+  // the unnecessary copies of pack `Ts...` during the recursion
   template <std::size_t BeginIdx, std::size_t N>
   struct divide_helper_
-    : concat_impl<typename divide_helper_<BeginIdx, N / 2>::type, typename divide_helper_<BeginIdx + N / 2, N - N / 2>::type> {};
+    : concat_impl<
+        typename divide_helper_<BeginIdx, N / 2>::type, typename divide_helper_<BeginIdx + N / 2, N - N / 2>::type
+      > {};
 
   template <std::size_t BeginIdx>
   struct divide_helper_<BeginIdx, 1> {
@@ -445,7 +451,8 @@ struct concat_impl<type_list<Ts...>, type_list<Us...>> {
 
 template <std::size_t... Is, typename... Ts, std::size_t... Js, typename... Us>
 struct concat_impl<
-  indexed_type_list<std::index_sequence<Is...>, type_list<Ts...>>, indexed_type_list<std::index_sequence<Js...>, type_list<Us...>>
+  indexed_type_list<std::index_sequence<Is...>, type_list<Ts...>>,
+  indexed_type_list<std::index_sequence<Js...>, type_list<Us...>>
 > {
   using type = indexed_type_list<std::index_sequence<Is..., Js...>, type_list<Ts..., Us...>>;
 };
@@ -474,7 +481,8 @@ export namespace creep::meta {
 // name after Haskell Data.List concat
 // get the concatenation of several type lists
 // O(log n) time complexity for type_list, where n is the count of type lists to concatenate
-// O(nlog n) time complexity for indexed_type_list (because of the validation for indices), where n is the sum of types over all given lists
+// O(nlog n) time complexity for indexed_type_list (because of the validation for indices), where n is the sum of types
+// over all given lists
 template <list_of_types... Ts>
 using concat = concat_get_result_helper<typename concat_impl<Ts...>::type>;
 
@@ -492,7 +500,9 @@ struct select_by_index_sequence<type_list<Ts...>, std::index_sequence<Is...>> {
 };
 
 template <std::size_t... Indices, typename... Ts, std::size_t... Is>
-struct select_by_index_sequence<indexed_type_list<std::index_sequence<Indices...>, type_list<Ts...>>, std::index_sequence<Is...>> {
+struct select_by_index_sequence<
+  indexed_type_list<std::index_sequence<Indices...>, type_list<Ts...>>, std::index_sequence<Is...>
+> {
   using type = indexed_type_list<std::index_sequence<Indices...[Is]...>, type_list<Ts...[Is]...>>;
 };
 
@@ -653,7 +663,8 @@ struct drop_while_impl_lazy_evaluation_helper<type_list<T, Ts...>, Fn> {
 template <typename T, typename... Ts, template <typename> typename Fn>
 struct drop_while_impl<type_list<T, Ts...>, Fn>
   : std::conditional_t<
-      Fn<T>::value, drop_while_impl_lazy_evaluation_helper<type_list<T, Ts...>, Fn>, std::type_identity<type_list<T, Ts...>>
+      Fn<T>::value, drop_while_impl_lazy_evaluation_helper<type_list<T, Ts...>, Fn>,
+      std::type_identity<type_list<T, Ts...>>
     > {};
 
 } // namespace creep::meta

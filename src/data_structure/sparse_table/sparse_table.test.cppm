@@ -39,7 +39,8 @@ private:
   F f_;
 
 public:
-  naive_sparse_table(const std::vector<int>& data, const F& f) : st_(max_jump_count + 1, std::vector<int>(element_count)), f_(f) {
+  naive_sparse_table(const std::vector<int>& data, const F& f)
+    : st_(max_jump_count + 1, std::vector<int>(element_count)), f_(f) {
     std::copy(data.begin(), data.end(), st_[0].begin());
     for (usize j = 1; j <= max_jump_count; ++j)
       for (usize i = 0; i + (1 << j) <= element_count; ++i)
@@ -78,8 +79,13 @@ void check_idempotent_query() {
 
   auto q = make_query();
   for (const auto [l, r] : q) {
-    if (const int naive_st_result = naive_st.query_idempotent(l, r), st_result = st.query(l, r); naive_st_result != st_result) {
-      std::println(std::cerr, "differ in idempotent query\nnaive impl result: {}\nlib result: {}", naive_st_result, st_result);
+    if (
+      const int naive_st_result = naive_st.query_idempotent(l, r), st_result = st.query(l, r);
+      naive_st_result != st_result
+    ) {
+      std::println(
+        std::cerr, "differ in idempotent query\nnaive impl result: {}\nlib result: {}", naive_st_result, st_result
+      );
       return;
     }
   }
@@ -95,13 +101,19 @@ void check_non_idempotent_query() {
   };
 
   naive_sparse_table naive_st(a, f);
-  // note that the sparse_table doesn't modify the first layer inside, this is for less overhead, since rarely does it need a modification
+  // note that the sparse_table doesn't modify the first layer inside, this is for less overhead, since rarely does it
+  // need a modification
   sparse_table st(a | std::views::transform([mod](int x) { return x % mod; }), f);
 
   auto q = make_query();
   for (const auto [l, r] : q) {
-    if (const int naive_st_result = naive_st.query_non_idempotent(l, r), st_result = st.query(l, r); naive_st_result != st_result) {
-      std::println(std::cerr, "differ in non-idempotent query\nnaive impl result: {}\nlib result: {}", naive_st_result, st_result);
+    if (
+      const int naive_st_result = naive_st.query_non_idempotent(l, r), st_result = st.query(l, r);
+      naive_st_result != st_result
+    ) {
+      std::println(
+        std::cerr, "differ in non-idempotent query\nnaive impl result: {}\nlib result: {}", naive_st_result, st_result
+      );
       return;
     }
   }

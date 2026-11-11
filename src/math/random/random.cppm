@@ -92,13 +92,15 @@ template <typename T, typename Fn>
 
 template <typename T>
   requires std::is_arithmetic_v<T>
-[[nodiscard]] auto rand_number_vector(std::size_t size, T begin = std::numeric_limits<T>::min(), T end = std::numeric_limits<T>::max()) {
+[[nodiscard]] auto rand_number_vector(
+  std::size_t size, T begin = std::numeric_limits<T>::min(), T end = std::numeric_limits<T>::max()
+) {
   return rand_vector<T>(size, [=] { return rand_number(begin, end); });
 }
 
 // get the edge list of a random unweighted tree
 // template <bool GenerateStar = false, std::integral Vertex>
-// [[nodiscard]] graph::basic_unweighted_edge_list<Vertex> rand_unweighted_tree(Vertex vertex_begin, Vertex vertex_end) {
+// [[nodiscard]] graph::basic_unweighted_edge_list<Vertex> rand_unweighted_tree(Vertex vertex_begin, Vertex vertex_end){
 //   if (vertex_begin > vertex_end)
 //     throw std::invalid_argument("invalid vertex index range");
 

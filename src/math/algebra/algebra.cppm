@@ -12,8 +12,9 @@ template <typename T>
 inline constexpr bool enable_idempotent_operator = false;
 
 template <typename T, typename Operator>
-concept idempotent_operator = std::regular_invocable<Operator, T, T> && std::convertible_to<std::invoke_result_t<Operator, T, T>, T>
-                              && enable_idempotent_operator<std::remove_cvref_t<Operator>>;
+concept idempotent_operator =
+  std::regular_invocable<Operator, T, T> && std::convertible_to<std::invoke_result_t<Operator, T, T>, T>
+  && enable_idempotent_operator<std::remove_cvref_t<Operator>>;
 
 } // export namespace creep::meta
 
@@ -30,7 +31,9 @@ public:
 
   template <typename... Args>
     requires std::regular_invocable<const Operator&, Args...>
-  constexpr decltype(auto) operator ()(Args&&... args) const noexcept(std::is_nothrow_invocable_v<const Operator&, Args...>) {
+  constexpr decltype(auto) operator ()(
+    Args&&... args
+  ) const noexcept(std::is_nothrow_invocable_v<const Operator&, Args...>) {
     return std::invoke(f_, std::forward<Args>(args)...);
   }
 };
@@ -57,8 +60,8 @@ struct neutral_element_tag {
   constexpr operator int() noexcept { return static_cast<int>(Operator); }
 };
 
-// the default behavior for is_neutral_element, other classes must overload this function if they want this utility, this is an optimization
-// for large types for which constructing and copying is costly, e.g. identity matrix
+// the default behavior for is_neutral_element, other classes must overload this function if they want this utility,
+// this is an optimization for large types for which constructing and copying is costly, e.g. identity matrix
 template <typename T, element_for_operator Operation>
   requires meta::arithmetic<T>
 [[nodiscard]] constexpr bool is_neutral_element(const T& elem) {

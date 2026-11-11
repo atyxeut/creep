@@ -21,7 +21,9 @@ template <typename T, typename U, std::regular_invocable<T&, U&&> Comparator>
 
 template <typename T, typename U>
   requires std::same_as<std::remove_cvref_t<T>, std::remove_cvref_t<U>>
-[[nodiscard]] constexpr bool update_max(T& dest, U&& src) noexcept(noexcept(assign_if(dest, std::forward<U>(src), std::ranges::less {}))) {
+[[nodiscard]] constexpr bool update_max(T& dest, U&& src) noexcept(
+  noexcept(assign_if(dest, std::forward<U>(src), std::ranges::less {}))
+) {
   return assign_if(dest, std::forward<U>(src), std::ranges::less {});
 }
 

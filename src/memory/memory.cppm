@@ -9,8 +9,13 @@ import std;
 export namespace creep {
 
 // use when there is a high probability that p, q are equal
-template <std::input_iterator I, std::strict_weak_order<std::iter_reference_t<I>, std::iter_reference_t<I>> Comparator = std::ranges::less>
-[[nodiscard]] constexpr bool iter_compare(I p, I q, Comparator comp = std::ranges::less {}) noexcept(noexcept(comp(*p, *q))) {
+template <
+  std::input_iterator I,
+  std::strict_weak_order<std::iter_reference_t<I>, std::iter_reference_t<I>> Comparator = std::ranges::less
+>
+[[nodiscard]] constexpr bool iter_compare(I p, I q, Comparator comp = std::ranges::less {}) noexcept(
+  noexcept(comp(*p, *q))
+) {
   if (p == q)
     return false;
   return comp(*p, *q);
@@ -81,8 +86,8 @@ constexpr auto uninitialized_construct_n(Allocator& alloc, InputIt first, std::s
 
   if !consteval {
     if constexpr (
-      std::same_as<Allocator, std::allocator<value_type>> && std::is_trivially_copyable_v<value_type> && std::contiguous_iterator<InputIt>
-      && std::contiguous_iterator<ForwardIt>
+      std::same_as<Allocator, std::allocator<value_type>> && std::is_trivially_copyable_v<value_type>
+      && std::contiguous_iterator<InputIt> && std::contiguous_iterator<ForwardIt>
     ) {
       std::memcpy(std::to_address(dest), std::to_address(first), count * sizeof(value_type));
       if constexpr (Tag == uninitialized_construction_tag::move)
@@ -251,7 +256,9 @@ public:
   [[nodiscard]] constexpr allocator_type get_allocator() const noexcept { return buffer_.allocator; }
 
   [[nodiscard]] constexpr pointer data() const noexcept { return buffer_.data; }
-  [[nodiscard]] constexpr pointer offset(size_type i) const noexcept { return buffer_.data + static_cast<difference_type>(i); }
+  [[nodiscard]] constexpr pointer offset(size_type i) const noexcept {
+    return buffer_.data + static_cast<difference_type>(i);
+  }
 
   constexpr void clear() noexcept { buffer_.destroy(buffer_.size); }
 
@@ -337,8 +344,8 @@ protected:
       return *this;
 
     if (
-      exception_safety_strong_ || (allocator_pocca_ && buffer_.allocator != other.buffer_.allocator) || buffer_.data == nullptr
-      || buffer_.capacity < other.buffer_.size
+      exception_safety_strong_ || (allocator_pocca_ && buffer_.allocator != other.buffer_.allocator)
+      || buffer_.data == nullptr || buffer_.capacity < other.buffer_.size
     ) {
       auto tmpbuf = buffer_type_(other.buffer_.size, allocator_pocca_ ? other.buffer_.allocator : buffer_.allocator);
       uninitialized_copy_n(tmpbuf.allocator, other.buffer_.data, other.buffer_.size, tmpbuf.data);
@@ -366,7 +373,8 @@ export namespace creep {
 
 // contiguous heap memory whose size is determined at runtime
 template <typename T, meta::size_integral Size, typename Allocator>
-using relaxed_heap_buffer = heap_buffer_base<T, Size, dynamic_storage_capacity<Size>, Allocator, exception_safety::basic>;
+using relaxed_heap_buffer =
+  heap_buffer_base<T, Size, dynamic_storage_capacity<Size>, Allocator, exception_safety::basic>;
 
 template <typename T, meta::size_integral Size, typename Allocator>
 using heap_buffer = heap_buffer_base<T, Size, dynamic_storage_capacity<Size>, Allocator, exception_safety::strong>;

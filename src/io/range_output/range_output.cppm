@@ -14,14 +14,15 @@ template <typename, typename = void>
 struct is_std_ostream_interactable_impl : std::false_type {};
 
 template <typename T>
-struct is_std_ostream_interactable_impl<T, std::void_t<decltype(std::declval<std::ostream&>() << std::declval<T>())>> : std::true_type {};
+struct is_std_ostream_interactable_impl<T, std::void_t<decltype(std::declval<std::ostream&>() << std::declval<T>())>>
+  : std::true_type {};
 
 } // namespace creep::meta::cpp17
 
 export namespace creep::meta::cpp17 {
 
 // check if T has an overload of operator << of std::ostream&
-// to make is_std_ostream_interactable<...>::value evaluate to true, the candidate overload must be already defined above it
+// to make is_std_ostream_interactable<...>::value evaluate to true, the candidate overload must be defined above it
 template <typename T>
 using is_std_ostream_interactable = is_std_ostream_interactable_impl<T>;
 
@@ -46,7 +47,10 @@ export namespace creep {
 
 // for a range whose elements can be printed by std::ostream by default
 // e.g. std::vector<int>, std::vector<std::string>
-template <std::ranges::input_range R, std::convertible_to<std::string> Delim = std::string, typename T = std::ranges::range_value_t<R>>
+template <
+  std::ranges::input_range R, std::convertible_to<std::string> Delim = std::string,
+  typename T = std::ranges::range_value_t<R>
+>
   requires (meta::printable<T> && !std::is_array_v<T>)
 int print(std::ostream& ostr, R&& range, Delim&& delim = std::string(1, ' '), bool new_line = false) {
   for (auto it = std::ranges::begin(range), it_end = std::ranges::end(range); it != it_end; ++it)
@@ -60,7 +64,10 @@ int print(std::ostream& ostr, R&& range, Delim&& delim = std::string(1, ' '), bo
 
 // for a range whose elements can not be printed by std::ostream by default
 // e.g. std::vector<std::array<int, 4>>, std::vector<std::pair<int, int>>
-template <std::ranges::input_range R, std::convertible_to<std::string> Delim = std::string, typename T = std::ranges::range_value_t<R>>
+template <
+  std::ranges::input_range R, std::convertible_to<std::string> Delim = std::string,
+  typename T = std::ranges::range_value_t<R>
+>
   requires (!meta::cpp17::is_std_ostream_interactable_v<T> && std::ranges::input_range<T>)
 int print(std::ostream& ostr, R&& range, Delim&& delim = std::string(1, ' '), bool new_line = false) {
   int cur_dim = 0;
@@ -94,7 +101,9 @@ void print(std::ostream& ostr, const T& arr, Delim&& delim = std::string(1, ' ')
 export namespace creep::inline operator_overload::inline io_operator {
 
 // avoid ambiguous overloads when Range is std::string&, int[2][3], ...
-template <std::ranges::input_range R, typename = std::enable_if_t<!::creep::meta::cpp17::is_std_ostream_interactable_v<R>>>
+template <
+  std::ranges::input_range R, typename = std::enable_if_t<!::creep::meta::cpp17::is_std_ostream_interactable_v<R>>
+>
 auto& operator <<(std::ostream& ostr, R&& range) {
   ::creep::print(ostr, std::forward<R>(range));
   return ostr;

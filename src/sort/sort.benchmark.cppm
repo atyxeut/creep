@@ -39,7 +39,9 @@ void compare_hoare_quick_sort_variations() {
     timer.lap();
     creep::recursive_hoare_quick_sort(string_arr_of_len_1000_0.begin(), string_arr_of_len_1000_0.end(), comp);
     timer.lap();
-    creep::recursive_hoare_quick_sort_less_comparison(string_arr_of_len_1000_1.begin(), string_arr_of_len_1000_1.end(), comp);
+    creep::recursive_hoare_quick_sort_less_comparison(
+      string_arr_of_len_1000_1.begin(), string_arr_of_len_1000_1.end(), comp
+    );
     timer.lap();
 
     for (auto j = 0uz; j < n[0]; ++j) {

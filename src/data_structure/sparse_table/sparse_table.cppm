@@ -31,11 +31,12 @@ private:
   // ICE:
   // post(idx : idx < this->buffer_.size)
   {
-    // the jth row has only row_length - 2^j + 1 elements, so the jth row has 2^j - 1 unused slots, then from 0th row to the (j-1)th, the
-    // total contribution is sum_(k = 0)^(j - 1) (2^k - 1) = 2^j - j - 1 spare slots, thus the offset is j * row_length + i - (2^j - j - 1)
+    // the jth row has only row_length - 2^j + 1 elements, so the jth row has 2^j - 1 unused slots, then from 0th row to
+    // the (j-1)th, the total contribution is sum_(k = 0)^(j - 1) (2^k - 1) = 2^j - j - 1 spare slots, thus the offset
+    // is j * row_length + i - (2^j - j - 1)
     //
-    // by the way, the total memory saved for the whole table that has max jump J is (2^J - J - 1) + (2^J - 1) = 2^(J + 1) - J - 2 slots,
-    // i.e. saved O(n) for n elements
+    // by the way, the total memory saved for the whole table that has max jump J is
+    // (2^J - J - 1) + (2^J - 1) = 2^(J + 1) - J - 2 slots, i.e. saved O(n) for n elements
     return j * size_ + i + j + 1 - (static_cast<size_type>(1) << j);
   }
 
@@ -73,7 +74,9 @@ public:
   ) const noexcept(std::is_nothrow_invocable_v<const Merge&, const T&, const T&>) pre(l <= r) {
     if constexpr (meta::idempotent_operator<T, Merge>) {
       const size_type j = ilog2(r - l + 1);
-      return std::invoke(f_, this->buffer_[map_(l, j)], this->buffer_[map_(r + 1 - (static_cast<size_type>(1) << j), j)]);
+      return std::invoke(
+        f_, this->buffer_[map_(l, j)], this->buffer_[map_(r + 1 - (static_cast<size_type>(1) << j), j)]
+      );
     } else {
       const size_type d = r - l + 1;
       size_type j = ilog2(d);
@@ -93,7 +96,8 @@ public:
 
 template <std::ranges::forward_range R, typename F, typename Allocator = std::allocator<std::ranges::range_value_t<R>>>
 sparse_table(R&&, F&&, const Allocator& = Allocator {}) -> sparse_table<
-  std::ranges::range_value_t<R>, std::remove_reference_t<F>, relaxed_heap_buffer<std::ranges::range_value_t<R>, std::size_t, Allocator>
+  std::ranges::range_value_t<R>, std::remove_reference_t<F>,
+  relaxed_heap_buffer<std::ranges::range_value_t<R>, std::size_t, Allocator>
 >;
 
 } // export namespace creep

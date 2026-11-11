@@ -30,7 +30,9 @@ template <kmp_search_policy P>
 using kmp_search_result_t = std::conditional_t<P == kmp_search_policy::first, std::size_t, std::vector<std::size_t>>;
 
 template <kmp_search_policy P, typename R>
-[[nodiscard]] constexpr kmp_search_result_t<P> kmp_search_impl(std::string_view src, std::string_view pattern, R&& next) noexcept {
+[[nodiscard]] constexpr kmp_search_result_t<P> kmp_search_impl(
+  std::string_view src, std::string_view pattern, R&& next
+) noexcept {
   if (pattern.empty()) {
     if constexpr (P == kmp_search_policy::first)
       return 0;

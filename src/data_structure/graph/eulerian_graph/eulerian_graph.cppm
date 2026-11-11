@@ -21,7 +21,8 @@ export namespace creep::graph {
 //
 // a directed graph is semi-Eulerian iff:
 // 1. ignoring isolated vertices, the graph is strongly connected
-// 2. for any vertex u, deg+(u) = deg-(u), or exactly for two vertices u, v, deg+(u) + 1 = deg-(u) and deg+(v) = deg-(v) + 1
+// 2. for any vertex u, deg+(u) = deg-(u), or exactly for two vertices u, v, deg+(u) + 1 = deg-(u) and deg+(v)
+//    = deg-(v) + 1
 //
 // an undirected graph is Eulerian iff:
 // 1. the graph is semi-Eulerian
@@ -119,7 +120,9 @@ constexpr void get_an_eulerian_trail_impl_for_undirected_recursive(const G& g, T
 }
 
 template <typename G, typename T, typename Y, typename U, typename I>
-constexpr void get_an_eulerian_trail_impl_for_undirected_iterative(const G& g, T start, Y& cur_edge_it, U& vis, I& path) {
+constexpr void get_an_eulerian_trail_impl_for_undirected_iterative(
+  const G& g, T start, Y& cur_edge_it, U& vis, I& path
+) {
   std::vector<T> stack {start};
   while (!stack.empty()) {
     const auto u = stack.back();
@@ -195,7 +198,8 @@ template <graph_trail_tag TrailTag, direction GraphDirection, typename Graph, ty
 
 export namespace creep::graph {
 
-// leave isolated vertices, the rest of the graph must be (strongly) connected, otherwise the following functions have undefined behavior
+// leave isolated vertices, the rest of the graph must be (strongly) connected, otherwise the following functions have
+// undefined behavior
 
 template <graph T>
 [[nodiscard]] constexpr auto get_an_eulerian_trail_for_undirected(const T& g) {

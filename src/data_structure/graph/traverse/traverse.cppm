@@ -38,8 +38,8 @@ template <toposort_tag Order, typename Graph, typename Fn>
   using vertex_type = Graph::vertex_type;
 
   using queue_type = std::conditional_t<
-    Order == toposort_tag::lexicographical, std::priority_queue<vertex_type, std::vector<vertex_type>, std::greater<vertex_type>>,
-    std::queue<vertex_type>
+    Order == toposort_tag::lexicographical,
+    std::priority_queue<vertex_type, std::vector<vertex_type>, std::greater<vertex_type>>, std::queue<vertex_type>
   >;
 
   vertex_type n = g.vertex_size();

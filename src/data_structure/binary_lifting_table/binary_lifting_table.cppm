@@ -38,7 +38,10 @@ concept binary_lifting_policy = requires(typename Policy::value_type a, typename
 
 export namespace creep {
 
-template <typename T, meta::binary_lifting_policy Policy, typename Buffer = relaxed_heap_buffer<T, std::size_t, std::allocator<T>>>
+template <
+  typename T, meta::binary_lifting_policy Policy,
+  typename Buffer = relaxed_heap_buffer<T, std::size_t, std::allocator<T>>
+>
   requires std::same_as<T, typename Policy::value_type>
 class binary_lifting_table final : private Policy, public Buffer {
 public:
@@ -64,7 +67,9 @@ private:
 public:
   template <std::ranges::forward_range R, typename P = Policy>
     requires std::same_as<Policy, std::remove_cvref_t<P>>
-  constexpr explicit binary_lifting_table(R&& r, P&& p, const allocator_type& alloc = allocator_type {}) pre(std::ranges::distance(r) > 0)
+  constexpr explicit binary_lifting_table(R&& r, P&& p, const allocator_type& alloc = allocator_type {}) pre(
+    std::ranges::distance(r) > 0
+  )
     : Policy(std::forward<P>(p)), Buffer(alloc), size_ {static_cast<size_type>(std::ranges::distance(r))},
       max_exp_p1_ {static_cast<size_type>(ilog2(size_) + 1)} {
     this->recapacity(size_ * max_exp_p1_);
@@ -74,7 +79,9 @@ public:
     size_type cur_j = 1;
     try {
       for (auto&& item : r) {
-        if constexpr (!std::is_lvalue_reference_v<R&&> || !std::is_lvalue_reference_v<std::ranges::range_reference_t<R>>)
+        if constexpr (
+          !std::is_lvalue_reference_v<R&&> || !std::is_lvalue_reference_v<std::ranges::range_reference_t<R>>
+        )
           allocator_traits::construct(this->buffer_.allocator, this->offset(map_(row, 0)), std::move(item));
         else
           allocator_traits::construct(this->buffer_.allocator, this->offset(map_(row, 0)), item);
@@ -87,7 +94,9 @@ public:
           if (const auto ptr = this->offset(map_(cur_i, cur_j)); mid_idx == Policy::sentinel_index)
             allocator_traits::construct(this->buffer_.allocator, ptr, Policy::sentinel_value);
           else
-            allocator_traits::construct(this->buffer_.allocator, ptr, std::invoke(merge_, mid, this->buffer_[map_(mid_idx, cur_j - 1)]));
+            allocator_traits::construct(
+              this->buffer_.allocator, ptr, std::invoke(merge_, mid, this->buffer_[map_(mid_idx, cur_j - 1)])
+            );
         }
       }
       this->buffer_.size = max_exp_p1_ * size_;
@@ -121,9 +130,12 @@ public:
   }
 };
 
-template <std::ranges::forward_range R, typename Policy, typename Allocator = std::allocator<std::ranges::range_value_t<R>>>
+template <
+  std::ranges::forward_range R, typename Policy, typename Allocator = std::allocator<std::ranges::range_value_t<R>>
+>
 binary_lifting_table(R&&, Policy&&, const Allocator& = Allocator {}) -> binary_lifting_table<
-  std::ranges::range_value_t<R>, std::remove_reference_t<Policy>, relaxed_heap_buffer<std::ranges::range_value_t<R>, std::size_t, Allocator>
+  std::ranges::range_value_t<R>, std::remove_reference_t<Policy>,
+  relaxed_heap_buffer<std::ranges::range_value_t<R>, std::size_t, Allocator>
 >;
 
 } // export namespace creep

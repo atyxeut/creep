@@ -59,7 +59,8 @@ export namespace creep::meta {
 // O(1) time complexity, assume `std::make_integer_sequence` has O(1) time complexity
 template <std::integral T, T Begin, T End>
   requires (Begin <= End)
-using make_integer_sequence_of_range = make_integer_sequence_of_range_impl<T, Begin, std::make_integer_sequence<T, End - Begin + 1>>::type;
+using make_integer_sequence_of_range =
+  make_integer_sequence_of_range_impl<T, Begin, std::make_integer_sequence<T, End - Begin + 1>>::type;
 
 template <std::size_t Begin, std::size_t End>
 using make_index_sequence_of_range = make_integer_sequence_of_range<std::size_t, Begin, End>;

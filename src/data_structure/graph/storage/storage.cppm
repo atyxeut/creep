@@ -161,16 +161,22 @@ struct edge_weight<Weight> {
 };
 
 template <direction Direction, typename Id, typename SourceOrder, std::unsigned_integral Order, typename Weight>
-  requires ((std::is_void_v<Id> || meta::precision_gteq<Id, Order>) && (std::is_void_v<SourceOrder> || std::same_as<SourceOrder, Order>))
+  requires ((std::is_void_v<Id> || meta::precision_gteq<Id, Order>)
+            && (std::is_void_v<SourceOrder> || std::same_as<SourceOrder, Order>))
              && (std::is_void_v<Weight> || meta::arithmetic<Weight>)
-class edge_base : public edge_id<Id>, public edge_source<SourceOrder>, public edge_destination<Order>, public edge_weight<Weight> {};
+class edge_base
+  : public edge_id<Id>,
+    public edge_source<SourceOrder>,
+    public edge_destination<Order>,
+    public edge_weight<Weight> {};
 
 }; // namespace creep::graph
 
 export namespace creep::graph {
 
 template <direction Direction, typename Id, typename SourceOrder, typename Order, typename Weight>
-struct edge_traits<edge_base<Direction, Id, SourceOrder, Order, Weight>> : edge_trait_base<Direction, Id, Order, Weight> {};
+struct edge_traits<edge_base<Direction, Id, SourceOrder, Order, Weight>>
+  : edge_trait_base<Direction, Id, Order, Weight> {};
 
 template <typename Id = void, typename SourceOrder = std::size_t, typename Order = std::size_t, typename Weight = void>
 using undirected_edge = edge_base<direction::undirected, Id, SourceOrder, Order, Weight>;
@@ -182,8 +188,14 @@ using directed_edge = edge_base<direction::directed, Id, SourceOrder, Order, Wei
 
 export namespace creep::graph {
 
-template <typename Edge, typename Size = std::conditional_t<std::is_void_v<edge_id_t<Edge>>, edge_order_t<Edge>, edge_id_t<Edge>>>
-  requires ((std::is_void_v<edge_id_t<Edge>> && meta::precision_gteq<Size, edge_order_t<Edge>>) || std::same_as<edge_id_t<Edge>, Size>)
+template <
+  typename Edge,
+  typename Size = std::conditional_t<std::is_void_v<edge_id_t<Edge>>, edge_order_t<Edge>, edge_id_t<Edge>>
+>
+  requires (
+    (std::is_void_v<edge_id_t<Edge>> && meta::precision_gteq<Size, edge_order_t<Edge>>)
+    || std::same_as<edge_id_t<Edge>, Size>
+  )
 class edge_list final : public graph_trait_base<edge_direction_v<Edge>, edge_order_t<Edge>, edge_weight_t<Edge>, Size> {
 private:
   edge_order_t<Edge> order_;
@@ -206,7 +218,9 @@ public:
 
   constexpr void reserve(Size capacity) { edges_.reserve(capacity); }
 
-  template <typename... Args> constexpr void add_edge(Args&&... args) { edges_.emplace_back(std::forward<Args>(args)...); }
+  template <typename... Args> constexpr void add_edge(Args&&... args) {
+    edges_.emplace_back(std::forward<Args>(args)...);
+  }
 };
 
 } // export namespace creep::graph

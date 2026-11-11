@@ -267,7 +267,8 @@ template <usize Bits>
 struct is_no_cv_custom_twos_complement_signed_integral<integer::i<Bits>> : std::true_type {};
 
 template <typename T>
-inline constexpr bool is_no_cv_custom_twos_complement_signed_integral_v = is_no_cv_custom_twos_complement_signed_integral<T>::value;
+inline constexpr bool is_no_cv_custom_twos_complement_signed_integral_v =
+  is_no_cv_custom_twos_complement_signed_integral<T>::value;
 
 template <typename T>
 using is_custom_twos_complement_signed_integral = is_no_cv_custom_twos_complement_signed_integral<std::remove_cv_t<T>>;
@@ -298,7 +299,8 @@ template <typename T>
 concept custom_twos_complement_signed_integral = is_custom_twos_complement_signed_integral_v<T>;
 
 template <typename T>
-concept unsigned_integral = std::unsigned_integral<T> || std::same_as<std::remove_cv_t<T>, u128> || is_custom_unsigned_integral_v<T>;
+concept unsigned_integral =
+  std::unsigned_integral<T> || std::same_as<std::remove_cv_t<T>, u128> || is_custom_unsigned_integral_v<T>;
 
 template <typename T>
 concept nonbool_unsigned_integral = unsigned_integral<T> && !boolean<T>;
@@ -625,8 +627,9 @@ template <std::integral Limb>
   if (is_zero(a) || is_zero(b))
     return std::vector<Limb> {};
 
-  // delayed carry is always safe here, ans[k] accumulates at most min(la, lb) additions, assume that every addition is ans[k] += 9 * 9,
-  // it requires (2^31 - 1) / 81 > 1e7 additions to overflow, such inputs are far beyond the capability of this O(n^2) algorithm
+  // delayed carry is always safe here, ans[k] accumulates at most min(la, lb) additions, assume that every addition is
+  // ans[k] += 9 * 9, it requires (2^31 - 1) / 81 > 1e7 additions to overflow, such inputs are far beyond the capability
+  // of this O(n^2) algorithm
   std::vector<Limb> ans(a.size() + b.size());
 
   for (auto i = 0uz; i < a.size(); ++i)
@@ -665,9 +668,9 @@ template <std::integral Limb>
 }
 
 template <std::integral Limb>
-[[nodiscard]] constexpr floor_div_result<Limb, std::vector<Limb>> floor_div(const std::vector<Limb>& a, const std::vector<Limb>& b) pre(
-  !is_zero(b)
-) {
+[[nodiscard]] constexpr floor_div_result<Limb, std::vector<Limb>> floor_div(
+  const std::vector<Limb>& a, const std::vector<Limb>& b
+) pre(!is_zero(b)) {
   const int comp_result = compare<Limb>(a, b);
   if (comp_result < 0)
     return {{}, a};

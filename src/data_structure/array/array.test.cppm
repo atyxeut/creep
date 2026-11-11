@@ -37,8 +37,10 @@ consteval void is_creep_vector_nested_std_vector() {
   static_assert(std::same_as<T2, T2_>);
 
   using T3 = std::pmr::vector<std::pmr::vector<std::pmr::vector<std::pmr::vector<std::pmr::vector<double>>>>>;
-  using T3_ =
-    vector<double, 5, std_pmr_allocator_tag, std_pmr_allocator_tag, std_pmr_allocator_tag, std_pmr_allocator_tag, std_pmr_allocator_tag>;
+  using T3_ = vector<
+    double, 5, std_pmr_allocator_tag, std_pmr_allocator_tag, std_pmr_allocator_tag, std_pmr_allocator_tag,
+    std_pmr_allocator_tag
+  >;
   static_assert(std::same_as<T3, T3_>);
 
   using T4 = std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>;
@@ -53,7 +55,9 @@ consteval void do_creep_vector_allocators_default_to_std_allocator() {
 
   using T2 = std::vector<std::vector<std::pmr::vector<int>>>;
   using T2_ = vector<int, 3, std::pmr::polymorphic_allocator<int>>;
-  using T2__ = vector<int, 3, std::pmr::polymorphic_allocator<int>, std::allocator<std::vector<int, std::pmr::polymorphic_allocator<int>>>>;
+  using T2__ = vector<
+    int, 3, std::pmr::polymorphic_allocator<int>, std::allocator<std::vector<int, std::pmr::polymorphic_allocator<int>>>
+  >;
   static_assert(std::same_as<T2, T2_> && std::same_as<T2_, T2__>);
 }
 
@@ -69,8 +73,11 @@ void check_make_vector() {
   static_assert(get_v1() == get_v1_());
 
   // std::pmr::polymorphic_allocator cannot be used in constexpr context
-  auto v2 = std::vector<std::pmr::vector<std::vector<double>>>(3, std::pmr::vector<std::vector<double>>(4, std::vector<double>(5, 3.14)));
-  auto v2_ = make_vector<double, std::allocator<double>, std::pmr::polymorphic_allocator<std::vector<double>>>(3, 4, 5, 3.14);
+  auto v2 = std::vector<std::pmr::vector<std::vector<double>>>(
+    3, std::pmr::vector<std::vector<double>>(4, std::vector<double>(5, 3.14))
+  );
+  auto v2_ =
+    make_vector<double, std::allocator<double>, std::pmr::polymorphic_allocator<std::vector<double>>>(3, 4, 5, 3.14);
   auto v2__ = make_vector<double, std_allocator_tag, std_pmr_allocator_tag>(3, 4, 5, 3.14);
   contract_assert(v2 == v2_ && v2_ == v2__);
 }
