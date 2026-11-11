@@ -47,7 +47,7 @@ void check_custom_integer_sequence_helpers() {
 
   {
     using target = std::integer_sequence<int, 11, 12, 13, 14>;
-    static_assert(std::same_as<shift_integer_sequence_t<int, 10, std::integer_sequence<int, 1, 2, 3, 4>>, >);
+    static_assert(std::same_as<shift_integer_sequence_t<int, 10, std::integer_sequence<int, 1, 2, 3, 4>>, target>);
   }
 
   {
