@@ -16,19 +16,19 @@ argv = parser.parse_args()
 
 
 def format_cpp(path: Path):
-  if path.is_dir():
-    for item in path.iterdir():
-      format_cpp(item)
-  elif path.suffix == ".hpp" or path.suffix == ".cpp" or path.suffix == ".cppm":
-    print(f"formatting {path}")
-    subprocess.run(["clang-format", "-style=file:.clang-format", "-i", path], check=False)
+    if path.is_dir():
+        for item in path.iterdir():
+            format_cpp(item)
+    elif path.suffix == ".hpp" or path.suffix == ".cpp" or path.suffix == ".cppm":
+        print(f"formatting {path}")
+        subprocess.run(["clang-format", "-style=file:.clang-format", "-i", path], check=False)
 
 
 def main():
-  for path in argv.path:
-    format_cpp(Path(path).resolve())
-  print("format done", file=sys.stderr)
+    for path in argv.path:
+        format_cpp(Path(path).resolve())
+    print("format done", file=sys.stderr)
 
 
 if __name__ == "__main__":
-  main()
+    main()

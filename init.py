@@ -19,10 +19,10 @@ argv = parser.parse_args()
 
 
 def main():
-  subprocess.run(["python3", "clean.py"], check=False)
-  subprocess.run(["xmake", "f", "-v", "--toolchain=" + argv.toolchain, "-m", argv.build_mode], check=False)
-  subprocess.run(["xmake", "project", "-k", "compile_commands", "--outputdir=build"], check=False, text=True)
+    subprocess.run(["python3", "clean.py"], check=False)
+    subprocess.run(["xmake", "f", "-v", "--toolchain=" + argv.toolchain, "-m", argv.build_mode], check=False)
+    subprocess.run(["xmake", "project", "-k", "compile_commands", "--outputdir=build"], check=False, text=True)
 
 
 if __name__ == "__main__":
-  main()
+    main()
