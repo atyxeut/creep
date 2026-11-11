@@ -5,4 +5,5 @@ export module creep:math.test;
 
 export import :math.linalg.test;
 export import :math.number.test;
+export import :math.random.test;
 export import :math.sequence.test;

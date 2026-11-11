@@ -12,7 +12,6 @@ export import :math;
 export import :memory;
 export import :meta;
 export import :misc;
-export import :random;
 export import :simd;
 export import :sort;
 export import :system;

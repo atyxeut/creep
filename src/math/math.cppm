@@ -12,5 +12,6 @@ export import :math.linalg;
 export import :math.number;
 export import :math.optimization;
 export import :math.polynomial;
+export import :math.random;
 export import :math.sequence;
 export import :math.series;

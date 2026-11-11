@@ -6,7 +6,7 @@ export module creep:data_structure.sparse_table.test;
 import :data_structure.sparse_table;
 import :math.algebra;
 import :math.number.integer;
-import :random;
+import :math.random;
 import std;
 
 using namespace creep;

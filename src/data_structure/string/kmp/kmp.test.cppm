@@ -3,8 +3,8 @@
 
 export module creep:data_structure.string.kmp.test;
 
-import :random;
 import :data_structure.string;
+import :math.random;
 import std;
 
 using namespace creep;

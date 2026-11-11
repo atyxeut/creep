@@ -5,7 +5,7 @@ export module creep:sort.benchmark;
 
 import :debug;
 import :io;
-import :random;
+import :math.random;
 import :sort;
 import std;
 

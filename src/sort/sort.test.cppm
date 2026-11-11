@@ -3,7 +3,7 @@
 
 export module creep:sort.test;
 
-import :random;
+import :math.random;
 import :sort;
 import std;
 
