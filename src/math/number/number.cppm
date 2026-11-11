@@ -5,6 +5,6 @@ export module creep:math.number;
 
 export import :math.number.complex;
 export import :math.number.floating_point;
-export import :math.number.fraction;
 export import :math.number.integer;
 export import :math.number.quaternion;
+export import :math.number.rational;
