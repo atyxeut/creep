@@ -3,6 +3,8 @@
 
 module;
 
+#include <climits>
+
 // https://stackoverflow.com/a/76440171
 #if _MSC_VER >= 1934
   #include <__msvc_int128.hpp>
@@ -17,6 +19,8 @@ import :io.format_flag;
 import :meta.cvref;
 import :meta.type_list;
 import std;
+
+static_assert(CHAR_BIT == 8, "This library requires 8-bit bytes.");
 
 // clang-format off
 
