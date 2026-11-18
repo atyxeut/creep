@@ -6,6 +6,12 @@ export module creep:math.algebra;
 import :meta;
 import std;
 
+export namespace creep::alg {
+
+
+
+} // export namespace creep::alg
+
 export namespace creep::meta {
 
 template <typename T>
