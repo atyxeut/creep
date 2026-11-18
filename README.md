@@ -1,4 +1,4 @@
-# Creep: grows slowly and makes what's on it run faster
+# Creep: makes what's on it run faster
 
 A high performance, pure-module C++ library.
 
